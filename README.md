@@ -23,3 +23,4 @@ No hidden charges, you pay only what you consent.
 
 ### Quick transactions
 
+Reliable and fixed transaction time guaranteed by the Ethereum Network. 
