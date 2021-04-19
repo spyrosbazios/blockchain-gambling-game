@@ -34,7 +34,7 @@ body {
 
 
 .content-table{
-  background-image: url(home.png);
+  background-image: url(assets/home.png);
   background-position: center;
   height: 100vh;
   width: 100vw;
@@ -45,11 +45,36 @@ body {
   position: relative;
 }
  
-.main-content{
+.game-list{
   color:white;
-  text-align: center;
+  align-items: center;
 }
 
+.column {
+  float: left;
+  width: 31%;
+  padding: 5px;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+img.hoverGames {
+
+  -webkit-transition: margin 0.5s ease-out;
+  -moz-transition: margin 0.5s ease-out;
+  -o-transition: margin 0.5s ease-out;
+}
+
+img.hoverGames:hover {
+  cursor:pointer;
+  margin-top: -25px;
+}
+
+ 
 footer {
   text-align: center;
   position: relative;

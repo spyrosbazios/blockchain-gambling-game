@@ -5,8 +5,9 @@
 		<meta name="author" content="Chara Gergi">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="style.css">
+        <script src="tyche.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<title>Αρχική σελίδα </title>
+		<title>Αρχική σελίδα </title> 
 	</head>
 
 	<!--Start of body -->
@@ -16,7 +17,8 @@
             <div class="dropdown">
                 <i class="fa fa-bars" aria-hidden="true" id="menu-icon"></i>  
                     <div class="dropdown-content">
-                        <a href="#">Link 1</a>
+                        <a href="#"
+                        >Link 1</a>
                         <a href="#">Link 2</a>
                         <a href="#">Link 3</a>
                     </div>
@@ -30,13 +32,21 @@
             </div>
         </div>
 
-        <div class="main-content">
-            <p> Games will be  displayed here </p>
-             <p> Games will be  displayed here </p>
-              <p> Games will be  displayed here </p>
-               <p> Games will be  displayed here </p>
-                <p> Games will be  displayed here </p>
-            <footer> &copy; Tyche, Blockchain Casino</footer>
+        <div class="game-list">
+
+            <div class="row">
+                <div class="column">
+                  <img class="hoverGames" src="assets/roulette.png">
+                </div>
+                <div class="column">
+                  <img class="hoverGames" src="assets/box.png" onmouseover="hoverBoxInfo(this);" onmouseout="unhoverBoxInfo(this);">
+                </div>
+                <div class="column">
+                  <img class="hoverGames" src="assets/slot.png">
+                </div>   
+              </div>
+
+            <footer> &copy; Tyche, Blockchain Casino</footer> 
         </div>
     </body>
     </html>
