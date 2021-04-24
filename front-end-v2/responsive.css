@@ -1,0 +1,23 @@
+@media only screen and (max-width: 800px) {
+
+    .game-list{
+        display: column flex;
+        justify-content: space-around;
+        margin-top: 5%;
+    }
+
+    .game-list div{
+        margin-top: 40px;
+    }
+
+    .hoverGames button:hover {
+        width: 260px;
+        height: 355px;
+        margin-top: 0px;
+      }
+
+    .hoverGames button{
+        width: 250px;
+        height: 350px;
+    }
+}
