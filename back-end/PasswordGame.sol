@@ -37,7 +37,7 @@ contract PasswordGame {
         /* ... transfer money ... */
     }
     
-    /* check if a bet has won */
+    /* checks if a bet has won */
     function verifyBet() public returns (bool) {
         require (hasBet[msg.sender]);
         require (bets[msg.sender].blockNumber == block.number - 1);
@@ -56,14 +56,14 @@ contract PasswordGame {
         return won;
     }
     
-    /* check if a code has won */
+    /* checks if a code has won */
     function verifyCode(uint code) private view returns (bool) {
         //uint x = uint(keccak256(abi.encodePacked(i, blockhash(block.number - 1))));
         uint x = uint(keccak256(bytes.concat(bytes32(code), blockhash(block.number - 1))));
         return x % chance == 0;
     }
     
-    /* every digit must be between 1 and 9 */
+    /* checks if a digit is between 1 and 9 */
     function uintInRange(uint8 i) private pure returns (bool) {
         return i >= 1 && i <= 9;
     }
