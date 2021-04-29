@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="el">    <!--should be en-US-->
+<html lang="el">
 	<head>
 		<meta charset="utf-8">
 		<meta name="author" content="Chara Gergi">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="style.css">
-        <script src="tyche.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="responsive.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<title>Αρχική σελίδα </title> 
 	</head>
@@ -32,21 +32,18 @@
             </div>
         </div>
 
-        <div class="game-list">
-
-            <div class="row">
-                <div class="column">
-                  <img class="hoverGames" src="assets/roulette.png">
-                </div>
-                <div class="column">
-                  <img class="hoverGames" src="assets/box.png" onmouseover="hoverBoxInfo(this);" onmouseout="unhoverBoxInfo(this);">
-                </div>
-                <div class="column">
-                  <img class="hoverGames" src="assets/slot.png">
-                </div>   
-              </div>
-
-            <footer> &copy; Tyche, Blockchain Casino</footer> 
+        <div class="game-list  hoverGames">
+            <div>
+                <button id="rouletteGame"> </button>
+            </div>
+            <div>
+                <button id="boxGame""></button>
+            </div>
+            <div>
+                <button id="slotGame"></button>
+            </div>   
         </div>
+
+        <footer> &copy; Tyche, Blockchain Casino</footer> 
     </body>
     </html>

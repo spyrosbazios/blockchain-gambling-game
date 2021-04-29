@@ -9,8 +9,8 @@ body {
  */
 .dropdown-content {
     display: none;
-    left: 24px;
-    top : 10px;
+    left: 35px;
+    top : 11px;
     position: absolute;
     background-color: #f1f1f1;
     min-width: 160px;
@@ -26,7 +26,10 @@ body {
   }
 
   #menu-icon {
+    position: relative;
     color: #f1f1f1;
+    font-size: 30px;
+
   }
  
 /* Dispay menu when icon hovered */
@@ -41,44 +44,103 @@ body {
   opacity: 1;
   background-repeat: no-repeat;
   background-size: cover;
-  /*background-attachment: fixed;*/
-  position: relative;
+  background-attachment: fixed;
 }
  
+/*
+ *
+ * Frame of Games
+ *
+ */
+
 .game-list{
-  color:white;
-  align-items: center;
-}
+  color:black;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 10%;
+  }
 
-.column {
-  float: left;
-  width: 31%;
-  padding: 5px;
-}
-
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-img.hoverGames {
-
+/*
+ *
+ * Handling games' icons
+ *
+ */
+ .hoverGames button{
+  background-color: black;
+  background-position: center;
+  display: block;
+  border-radius: 25px;
+  width: 350px;
+  height: 450px;
   -webkit-transition: margin 0.5s ease-out;
   -moz-transition: margin 0.5s ease-out;
   -o-transition: margin 0.5s ease-out;
 }
 
-img.hoverGames:hover {
-  cursor:pointer;
+.hoverGames button:hover {
+  cursor: pointer;
   margin-top: -25px;
 }
+/*
+ *
+ * Roulette Game - Button Design
+ *
+ */
+#rouletteGame{
+  background-image: url("assets/roulette.png");
+ 
+}
 
+#rouletteGame:hover{
+  background-image: url("assets/box-info.png");
+}
+
+#rouletteGame::before{
+  background-image: url("assets/roulette.png");
+}
+
+/*
+ *
+ * Box Game - Button Design
+ *
+ */
+
+#boxGame{
+  background-image: url("assets/box.png");
+  background-position: center;
+}
+
+#boxGame:hover{
+  background-image: url("assets/box-info.png");
+}
+
+#boxGame::before{
+  background-image: url("assets/box.png");
+}
+/*
+ *
+ * Slot Game - Button Design
+ *
+ */
+
+ #slotGame{
+  background-image: url("assets/slot.png");
+  background-position: center;
+}
+
+#slotGame:hover{
+  background-image: url("assets/box-info.png");
+}
+
+#slotGame::before{
+  background-image: url("assets/slot.png");
+}
  
 footer {
   text-align: center;
   position: relative;
-  margin-top: 50%;
+  margin-top: 70px;
   bottom:10px;
   width:100%;
   color: #f1f1f1;
