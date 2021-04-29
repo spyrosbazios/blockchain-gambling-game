@@ -1,3 +1,4 @@
+//SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.4.16 <0.9.0;
 
 contract PasswordGame {
@@ -20,7 +21,7 @@ contract PasswordGame {
                  uint8 c21, uint8 c22, uint8 c23,
                  uint8 c31, uint8 c32, uint8 c33)
     public {
-        
+       
         require(msg.sender.balance >= amount && !hasBet[msg.sender]);
         require (uintInRange(c11) && uintInRange(c12) && uintInRange(c13), "first code not in range!");
         require (uintInRange(c21) && uintInRange(c22) && uintInRange(c23), "second code not in range!");
