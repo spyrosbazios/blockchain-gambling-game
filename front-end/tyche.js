@@ -5,3 +5,4 @@ function hoverBoxInfo(element) {
   function unhoverBoxInfo(element) {
     element.setAttribute('src', "assets/box.png");
   }
+  
