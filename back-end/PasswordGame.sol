@@ -32,7 +32,7 @@ contract PasswordGame {
     
     /* allows an owner to add another owner */
     function addOwner(address newOwner) public {
-        require (isOwner(msg.sender));
+        require (isOwner(msg.sender), "You must be already an owner to add new owners!");
         owners.push(newOwner);
     }
     
@@ -43,10 +43,10 @@ contract PasswordGame {
                        uint8 c31, uint8 c32, uint8 c33)
     public {
         
-        require(msg.sender.balance >= amount && !hasBet[msg.sender]);
-        require (uintInRange(c11) && uintInRange(c12) && uintInRange(c13), "first code not in range!");
-        require (uintInRange(c21) && uintInRange(c22) && uintInRange(c23), "second code not in range!");
-        require (uintInRange(c31) && uintInRange(c32) && uintInRange(c33), "third code not in range!");
+        require(msg.sender.balance >= amount && !hasBet[msg.sender], "Please make sure you have sufficient funds and no active bets!");
+        require (uintInRange(c11) && uintInRange(c12) && uintInRange(c13), "First (1st) code not in range!");
+        require (uintInRange(c21) && uintInRange(c22) && uintInRange(c23), "Second (2nd) code not in range!");
+        require (uintInRange(c31) && uintInRange(c32) && uintInRange(c33), "Third (3rd) code not in range!");
         
         uint code1 = uintTo3digit(c11, c12, c13);
         uint code2 = uintTo3digit(c21, c22, c23);
@@ -56,21 +56,30 @@ contract PasswordGame {
         
         /* ... transfer money ... */
     }
+
+    function getBetAmount(address addr) public view returns (uint) {return bets[addr].amount;}
+    function getBetBlockNumber(address addr) public view returns (uint) {return bets[addr].blockNumber;}
+    function getBetCode1(address addr) public view returns (uint) {return bets[addr].code1;}
+    function getBetCode2(address addr) public view returns (uint) {return bets[addr].code2;}
+    function getBetCode3(address addr) public view returns (uint) {return bets[addr].code3;}
+    function getHasBet(address addr) public view returns (bool) {return hasBet[addr];}
     
     /* checks if a bet has won */
     function verifyBet() public returns (bool) {
-        require (hasBet[msg.sender]);
-        require (bets[msg.sender].blockNumber == block.number - 1);
-        
+        require (hasBet[msg.sender], "You must have an active bet to verify it");
+
         bool won;
-        Bet storage b = bets[msg.sender];
-        if (verifyCode(b.code1) || verifyCode(b.code2) || verifyCode(b.code3)) {
-            won = true;
-            /* ... you have won ... */
-        } else {
-            won = false;
-            /* ... you have lost ... */
-        }   
+        if (bets[msg.sender].blockNumber == block.number - 1) {
+            Bet storage b = bets[msg.sender];
+            if (verifyCode(b.code1) || verifyCode(b.code2) || verifyCode(b.code3)) {
+                won = true;
+                /* ... you have won ... */
+            } else {
+                won = false;
+                /* ... you have lost ... */
+            }
+        } 
+        else won = false; /* verified it too late */
         hasBet[msg.sender] = false;
         
         return won;
@@ -78,7 +87,6 @@ contract PasswordGame {
     
     /* checks if a code has won */
     function verifyCode(uint code) private view returns (bool) {
-        //uint x = uint(keccak256(abi.encodePacked(i, blockhash(block.number - 1))));
         uint x = uint(keccak256(abi.encodePacked(bytes32(code), blockhash(block.number - 1))));
         return x % chance == 0;
     }
