@@ -22,6 +22,7 @@ contract PasswordGame {
         owners.push(msg.sender);
     }
     
+    /* checks if a given address is an owner */
     function isOwner(address addr) public view returns (bool) {
         for (uint i = 0; i < owners.length; i++) {
             if (addr == owners[i]) return true;
@@ -29,6 +30,7 @@ contract PasswordGame {
         return false;
     }
     
+    /* allows an owner to add another owner */
     function addOwner(address newOwner) public {
         require (isOwner(msg.sender));
         owners.push(newOwner);
