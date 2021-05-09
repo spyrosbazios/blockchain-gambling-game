@@ -3,6 +3,8 @@ pragma solidity >=0.4.16 <0.9.0;
 
 contract PasswordGame {
     
+    address[] owners;
+    
     uint8 chance = 38; //chance is inversed percentage eg chance = 2 means 50%
     
     struct Bet {
@@ -15,6 +17,22 @@ contract PasswordGame {
     
     mapping (address => Bet) bets;
     mapping (address => bool) hasBet;
+    
+    constructor() {
+        owners.push(msg.sender);
+    }
+    
+    function isOwner(address addr) public view returns (bool) {
+        for (uint i = 0; i < owners.length; i++) {
+            if (addr == owners[i]) return true;
+        }
+        return false;
+    }
+    
+    function addOwner(address newOwner) public {
+        require (isOwner(msg.sender));
+        owners.push(newOwner);
+    }
     
     /* create a bet for a player */
     function createBet(uint amount, 
@@ -43,7 +61,7 @@ contract PasswordGame {
         require (bets[msg.sender].blockNumber == block.number - 1);
         
         bool won;
-        Bet memory b = bets[msg.sender];
+        Bet storage b = bets[msg.sender];
         if (verifyCode(b.code1) || verifyCode(b.code2) || verifyCode(b.code3)) {
             won = true;
             /* ... you have won ... */
@@ -59,7 +77,7 @@ contract PasswordGame {
     /* checks if a code has won */
     function verifyCode(uint code) private view returns (bool) {
         //uint x = uint(keccak256(abi.encodePacked(i, blockhash(block.number - 1))));
-        uint x = uint(keccak256(bytes.concat(bytes32(code), blockhash(block.number - 1))));
+        uint x = uint(keccak256(abi.encodePacked(bytes32(code), blockhash(block.number - 1))));
         return x % chance == 0;
     }
     
