@@ -5,8 +5,9 @@ contract PasswordGame {
     
     address[] owners;
     
+    uint interest; // maximum is 100, eg interest = 10 means 10%
     uint8 chance = 38; //chance is inversed percentage eg chance = 2 means 50%
-    
+
     struct Bet {
         uint amount;
         uint blockNumber;
@@ -57,12 +58,14 @@ contract PasswordGame {
         /* ... transfer money ... */
     }
 
+    /* getters */
     function getBetAmount(address addr) public view returns (uint) {return bets[addr].amount;}
     function getBetBlockNumber(address addr) public view returns (uint) {return bets[addr].blockNumber;}
     function getBetCode1(address addr) public view returns (uint) {return bets[addr].code1;}
     function getBetCode2(address addr) public view returns (uint) {return bets[addr].code2;}
     function getBetCode3(address addr) public view returns (uint) {return bets[addr].code3;}
     function getHasBet(address addr) public view returns (bool) {return hasBet[addr];}
+    /* getters */
     
     /* checks if a bet has won */
     function verifyBet() public returns (bool) {
@@ -101,17 +104,20 @@ contract PasswordGame {
         return uint(m + d * 10 + e * 100);
     }
 
+    /* splits an amount of funds from the contract's address among contract owners */
+    function splitFunds(uint amount) public {
+        require (isOwner(msg.sender));
+        for (uint i = 0; i < owners.length; i++) {
+            (bool success, bytes memory b) = owners[i].call{value: amount/owners.length}('');
+            require(success); // if (!success) revert(); works too
+        }
+    }
+
 }
 
 /* 
 to-do:
+add events for js
 add winning amount per bet
 add mapping index of every bet so I can remove the bet from the mapping after its verification
-*/
-
-/*
-string s1 = Utils.uintToString(code1);
-string s2 = Utils.uintToString(code2);
-string s3 = Utils.uintToString(code3);
-Bet b = Bet(amount, block.number, abi.encodePacked(s1, s2, s3));
 */
