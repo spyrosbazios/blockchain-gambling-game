@@ -7,12 +7,12 @@ contract PasswordGame {
     
     uint8 interest = 10; // maximum must be 100, eg interest = 10 means 10%
     uint8 chance = 38; //chance is inversed percentage eg chance = 2 means 50%
-    uint8[] winFactors; 
+    uint8[] betAmounts; 
+    uint8[] winAmounts; 
 
     struct Bet {
         bool init;
-        uint amount;
-        uint amountWin;
+        uint8 betIndex;
         uint blockNumber;
         uint code1;
         uint code2;
@@ -24,7 +24,8 @@ contract PasswordGame {
     
     constructor() {
         owners = [0x9a267D357488fB3b8fdEE8C32694b6075c3a2044 /* <- example, our 3 addresses here */];
-        winFactors = [2, 5, 10]; // factors randomly chosen, must fix
+        betAmounts = [2, 5, 10];    // randomly chosen, must fix
+        winAmounts = [10, 25, 50];  // randomly chosen, must fix
     }
     
     /* checks if a given address is an owner */
@@ -44,29 +45,28 @@ contract PasswordGame {
     }
     
     /* create a bet for a player */
-    function createBet(uint amount, uint8 winFactorIndex,
+    function createBet(uint8 betIndex,
                        uint8 c11, uint8 c12, uint8 c13,
                        uint8 c21, uint8 c22, uint8 c23,
                        uint8 c31, uint8 c32, uint8 c33)
     public {
-        require(msg.sender.balance >= amount && bets[msg.sender].init, "Please make sure you have sufficient funds and no active bets!");
+        require(msg.sender.balance >= betAmounts[betIndex] && bets[msg.sender].init, "Please make sure you have sufficient funds and no active bets!");
         require (uintInRange(c11) && uintInRange(c12) && uintInRange(c13), "First (1st) code not in range!");
         require (uintInRange(c21) && uintInRange(c22) && uintInRange(c23), "Second (2nd) code not in range!");
         require (uintInRange(c31) && uintInRange(c32) && uintInRange(c33), "Third (3rd) code not in range!");
-        assert (winFactorIndex < winFactors.length);
+        assert (betIndex < 3); // hardcoded to save gas
         
         uint code1 = uintTo3digit(c11, c12, c13);
         uint code2 = uintTo3digit(c21, c22, c23);
         uint code3 = uintTo3digit(c31, c32, c33);
-        bets[msg.sender] = Bet(true, amount, amount * winFactors[winFactorIndex], block.number, code1, code2, code3);
+        bets[msg.sender] = Bet(true, betIndex, block.number, code1, code2, code3);
         
         /* ... transfer money ... */
     }
 
     /* getters */
     function getBetInit(address addr) public view returns (bool) {return bets[addr].init;}
-    function getBetAmount(address addr) public view returns (uint) {return bets[addr].amount;}
-    function getBetAmountWin(address addr) public view returns (uint) {return bets[addr].amountWin;}
+    function getBetIndex(address addr) public view returns (uint8) {return bets[addr].betIndex;}
     function getBetBlockNumber(address addr) public view returns (uint) {return bets[addr].blockNumber;}
     function getBetCode1(address addr) public view returns (uint) {return bets[addr].code1;}
     function getBetCode2(address addr) public view returns (uint) {return bets[addr].code2;}
