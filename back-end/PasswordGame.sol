@@ -76,11 +76,11 @@ contract PasswordGame {
 
     /* checks if a bet has won */
     function verifyBet() public returns (bool) {
-        require (bets[msg.sender].init, "You must have placed a bet to verify it");
+        Bet storage b = bets[msg.sender];
+        require (b.init, "You must have placed a bet to verify it");
 
         bool win;
-        if (bets[msg.sender].blockNumber == block.number - 1) {
-            Bet storage b = bets[msg.sender];
+        if (b.blockNumber == block.number - 1) {       
             if (verifyCodes(b.codes, chances[b.betIndex])) {
                 win = true;
                 /* ... you have won ... */
