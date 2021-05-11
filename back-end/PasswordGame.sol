@@ -64,9 +64,9 @@ contract PasswordGame {
 
     /* create a bet for a player */
     function createBet(uint8 betIndex, uint8[9] calldata codes) public {
-        require(msg.sender.balance >= betAmounts[betIndex] && bets[msg.sender].init, "Please make sure you have sufficient funds and no active bets!");
+        require(msg.sender.balance >= betAmounts[betIndex] && !bets[msg.sender].init, "Please make sure you have sufficient funds and no active bets!");
         require(address(this).balance >= winAmounts[betIndex], "There's not enough money in the contract in case you win!");
-        for (uint8 i = 0; i < 9; i++) require (codes[i] >= 1 && codes[i] <= 9, "A given code is not in range!");
+        for (uint8 i = 0; i < 9; i++) assert (codes[i] >= 1 && codes[i] <= 9);
         assert (betIndex < 3); // hardcoded to save gas
 
         bets[msg.sender] = Bet(true, block.number, betIndex, codes);
