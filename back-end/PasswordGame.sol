@@ -5,11 +5,14 @@ contract PasswordGame {
     
     address[] owners;
     
-    uint interest; // maximum is 100, eg interest = 10 means 10%
+    uint8 interest = 10; // maximum must be 100, eg interest = 10 means 10%
     uint8 chance = 38; //chance is inversed percentage eg chance = 2 means 50%
+    uint8[] winFactors; 
 
     struct Bet {
+        bool init;
         uint amount;
+        uint amountWin;
         uint blockNumber;
         uint code1;
         uint code2;
@@ -17,10 +20,11 @@ contract PasswordGame {
     }
     
     mapping (address => Bet) bets;
-    mapping (address => bool) hasBet;
+    //mapping (address => bool) hasBet;
     
     constructor() {
-        owners.push(msg.sender);
+        owners = [0x9a267D357488fB3b8fdEE8C32694b6075c3a2044 /* <- example, our 3 addresses here */];
+        winFactors = [2, 5, 10]; // factors randomly chosen, must fix
     }
     
     /* checks if a given address is an owner */
@@ -31,61 +35,63 @@ contract PasswordGame {
         return false;
     }
     
-    /* allows an owner to add another owner */
-    function addOwner(address newOwner) public {
-        require (isOwner(msg.sender), "You must be already an owner to add new owners!");
-        owners.push(newOwner);
+    /* allows an owner to replace his address with another owner */
+    function replaceOwner(address newOwner) public {
+        //require (isOwner(msg.sender), "You must be already an owner to add new owners!"); omitted to save gas from double loops
+        for (uint8 i = 0; i < owners.length; i < i++) {
+            if (owners[i] == msg.sender) owners[i] = newOwner;
+        }
     }
     
     /* create a bet for a player */
-    function createBet(uint amount, 
+    function createBet(uint amount, uint8 winFactorIndex,
                        uint8 c11, uint8 c12, uint8 c13,
                        uint8 c21, uint8 c22, uint8 c23,
                        uint8 c31, uint8 c32, uint8 c33)
     public {
-        
-        require(msg.sender.balance >= amount && !hasBet[msg.sender], "Please make sure you have sufficient funds and no active bets!");
+        require(msg.sender.balance >= amount && bets[msg.sender].init, "Please make sure you have sufficient funds and no active bets!");
         require (uintInRange(c11) && uintInRange(c12) && uintInRange(c13), "First (1st) code not in range!");
         require (uintInRange(c21) && uintInRange(c22) && uintInRange(c23), "Second (2nd) code not in range!");
         require (uintInRange(c31) && uintInRange(c32) && uintInRange(c33), "Third (3rd) code not in range!");
+        assert (winFactorIndex < winFactors.length);
         
         uint code1 = uintTo3digit(c11, c12, c13);
         uint code2 = uintTo3digit(c21, c22, c23);
         uint code3 = uintTo3digit(c31, c32, c33);
-        bets[msg.sender] = Bet(amount, block.number, code1, code2, code3);
-        hasBet[msg.sender] = true;
+        bets[msg.sender] = Bet(true, amount, amount * winFactors[winFactorIndex], block.number, code1, code2, code3);
         
         /* ... transfer money ... */
     }
 
     /* getters */
+    function getBetInit(address addr) public view returns (bool) {return bets[addr].init;}
     function getBetAmount(address addr) public view returns (uint) {return bets[addr].amount;}
+    function getBetAmountWin(address addr) public view returns (uint) {return bets[addr].amountWin;}
     function getBetBlockNumber(address addr) public view returns (uint) {return bets[addr].blockNumber;}
     function getBetCode1(address addr) public view returns (uint) {return bets[addr].code1;}
     function getBetCode2(address addr) public view returns (uint) {return bets[addr].code2;}
     function getBetCode3(address addr) public view returns (uint) {return bets[addr].code3;}
-    function getHasBet(address addr) public view returns (bool) {return hasBet[addr];}
     /* getters */
     
     /* checks if a bet has won */
     function verifyBet() public returns (bool) {
-        require (hasBet[msg.sender], "You must have an active bet to verify it");
+        require (bets[msg.sender].init, "You must have placed a bet to verify it");
 
-        bool won;
+        bool win;
         if (bets[msg.sender].blockNumber == block.number - 1) {
             Bet storage b = bets[msg.sender];
             if (verifyCode(b.code1) || verifyCode(b.code2) || verifyCode(b.code3)) {
-                won = true;
+                win = true;
                 /* ... you have won ... */
             } else {
-                won = false;
+                win = false;
                 /* ... you have lost ... */
             }
         } 
-        else won = false; /* verified it too late */
-        hasBet[msg.sender] = false;
+        else win = false; /* verified it too late */
+        delete bets[msg.sender];
         
-        return won;
+        return win;
     }
     
     /* checks if a code has won */
@@ -118,6 +124,4 @@ contract PasswordGame {
 /* 
 to-do:
 add events for js
-add winning amount per bet
-add mapping index of every bet so I can remove the bet from the mapping after its verification
 */
