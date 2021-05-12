@@ -6,9 +6,9 @@ contract PasswordGame {
     address[] owners;
     uint8 interest = 10; // maximum must be 100, eg interest = 10 means 10%
 
-    uint8[] betAmounts; 
-    uint8[] winAmounts; 
-    uint8[] chances; 
+    uint8[] betAmounts;
+    uint8[] winAmounts;
+    uint8[] chances;
 
     struct Bet {
         bool init;
@@ -67,7 +67,7 @@ contract PasswordGame {
         require(msg.sender.balance >= betAmounts[betIndex] && !bets[msg.sender].init, "Please make sure you have sufficient funds and no active bets!");
         require(address(this).balance >= winAmounts[betIndex], "There's not enough money in the contract in case you win!");
         for (uint8 i = 0; i < 9; i++) assert (codes[i] >= 1 && codes[i] <= 9);
-        assert (betIndex < 3); // hardcoded to save gas
+        assert (betIndex < 3);
 
         bets[msg.sender] = Bet(true, block.number, betIndex, codes);
         
@@ -77,29 +77,30 @@ contract PasswordGame {
     /* checks if a bet has won */
     function verifyBet() public returns (bool) {
         Bet storage b = bets[msg.sender];
-        require (b.init, "You must have placed a bet to verify it");
+        require (b.init, "You must have placed a bet to verify it!");
+        assert(block.number > b.blockNumber); // or blockhash will fail because the block won't be mined yet
 
-        bool win;
-        if (b.blockNumber == block.number - 1) {       
-            if (verifyCodes(b.codes, chances[b.betIndex])) {
-                win = true;
-                /* ... you have won ... */
-            } else {
-                win = false;
-                /* ... you have lost ... */
-            }
-        } 
-        else win = false; /* verified it too late */
+        bool verified = verifyCodes(b.blockNumber, b.codes, chances[b.betIndex]);
+        if (verified) {
+            uint ownerWins = winAmounts[b.betIndex] * interest / 100;
+            uint playerWins = winAmounts[b.betIndex] - ownerWins;
+
+            (bool success, bytes memory b) = msg.sender.call{value: playerWins}(''); assert(success);
+            splitFunds(ownerWins);
+        }
+        else {
+            /* ... you have lost ... */
+        }
 
         delete bets[msg.sender]; // maybe codes are not deleted correctly
-        return win;
+        return verified;
     }
     
     /* checks if any of a bet's codes has won */
-    function verifyCodes(uint8[9] storage codes, uint8 chance) private view returns (bool) {
+    function verifyCodes(uint blockNumber, uint8[9] storage codes, uint8 chance) private view returns (bool) {
         for (uint i = 0; i < 9; i += 3) {
             uint code = codes[i] * 100 + codes[i+1] * 10 + codes[i+2];
-            uint hashedCode = uint(keccak256(abi.encodePacked(bytes32(code), blockhash(block.number - 1))));
+            uint hashedCode = uint(keccak256(abi.encodePacked(bytes32(code), blockhash(blockNumber))));
             if (hashedCode % chance == 0) return true;
         }
         return false;
