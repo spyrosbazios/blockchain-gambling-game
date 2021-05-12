@@ -85,8 +85,11 @@ contract PasswordGame {
             uint ownerWins = winAmounts[b.betIndex] * interest / 100;
             uint playerWins = winAmounts[b.betIndex] - ownerWins;
 
-            (bool success, bytes memory b) = msg.sender.call{value: playerWins}(''); assert(success);
-            splitFunds(ownerWins);
+            (bool success1, bytes memory b1) = msg.sender.call{value: playerWins}(''); assert(success1);
+            for (uint i = 0; i < owners.length; i++) {
+                (bool success2, bytes memory b2) = owners[i].call{value: ownerWins/owners.length}(''); 
+                assert(success2);
+            }
         }
         else {
             /* ... you have lost ... */
