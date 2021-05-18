@@ -51,7 +51,7 @@ body {
  *
  * Frame of Games
  *
- */
+ */ 
 
 .game-list{
   color:black;
@@ -89,11 +89,15 @@ body {
  */
 #rouletteGame{
   background-image: url("assets/roulette.png");
+  background-repeat: no-repeat;
+  background-size: 450px 600px;
  
 }
 
 #rouletteGame:hover{
-  background-image: url("assets/box-info.png");
+  background-image: url("assets/roulette.png");
+  background-repeat: no-repeat;
+  background-size: 450px 600px;
 }
 
 #rouletteGame::before{
@@ -108,15 +112,18 @@ body {
 
 #boxGame{
   background-image: url("assets/box.png");
-  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 450px 600px;
 }
 
 #boxGame:hover{
   background-image: url("assets/box-info.png");
+  background-size:cover;
 }
 
 #boxGame::before{
   background-image: url("assets/box.png");
+
 }
 /*
  *
@@ -126,11 +133,14 @@ body {
 
  #slotGame{
   background-image: url("assets/slot.png");
-  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 450px 600px;
 }
 
 #slotGame:hover{
   background-image: url("assets/box-info.png");
+  background-size:cover;
+
 }
 
 #slotGame::before{
