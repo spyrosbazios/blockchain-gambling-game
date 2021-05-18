@@ -62,7 +62,7 @@ contract PasswordGame {
     }
     /* getters */
 
-    /* create a bet for a player */
+    /* creates a bet for a player */
     function createBet(uint8 betIndex, uint8[9] calldata codes) public {
         require(msg.sender.balance >= betAmounts[betIndex] && !bets[msg.sender].init, "Please make sure you have sufficient funds and no active bets!");
         require(address(this).balance >= winAmounts[betIndex], "There's not enough money in the contract in case you win!");
@@ -72,6 +72,18 @@ contract PasswordGame {
         bets[msg.sender] = Bet(true, block.number, betIndex, codes);
         
         /* ... transfer money ... */
+    }
+
+    /* withdraws a player's bet */
+    /* an prwta dinei lefta kai meta diagrafei, tote kapoios me ligo gas na parei pisw ta lefta alla na 
+    min diagrapsei to bet tou. An omws prwta diagrafei to bet, prepei na apothikeuei se local metavliti 
+    to posa lefta eixe paiksei ki auto isws kostisei parapanw gas*/
+    function withdrawBet() public {
+        require(bets[msg.sender].init, "You must have placed a bet to withdraw it!");
+        uint8 betAmount = betAmounts[bets[msg.sender].betIndex];
+        delete bets[msg.sender];
+        (bool success, bytes memory b) = msg.sender.call{value: betAmount}(''); 
+        assert(success);
     }
 
     /* checks if a bet has won */
