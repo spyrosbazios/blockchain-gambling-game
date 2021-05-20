@@ -81,9 +81,12 @@ contract PasswordGame {
     function withdrawBet() public {
         require(bets[msg.sender].init, "You must have placed a bet to withdraw it!");
         uint8 betAmount = betAmounts[bets[msg.sender].betIndex];
+        uint betBlockNumber = bets[msg.sender].blockNumber;
         delete bets[msg.sender];
-        (bool success, bytes memory b) = msg.sender.call{value: betAmount}(''); 
-        assert(success);
+        if (block.number == betBlockNumber) {
+            (bool success, bytes memory b) = msg.sender.call{value: betAmount}(''); 
+            assert(success);
+        }
     }
 
     /* checks if a bet has won */
