@@ -13,8 +13,8 @@ async function ethEnabled() {
 }
 
 async function test() {
-  const result = await ethEnabled();
-  console.log('Wallet connection: ' + result);
+	const result = await ethEnabled();
+	console.log('Wallet connection: ' + result);
 }
 
 window.onload = function() {
@@ -27,6 +27,6 @@ var contract_address = '0xF28Dfa8306AF0804E20355ED262B42a6aB28aDCB';
 const passwordGameContract = web3.eth.Contract(contract_abi, contract_address);
 
 function bet(){
-  passwordGameContract.methods.createBet(1,[1,2,3,4,5,6,7,8,9]);
-  console.log('contract method called')
+	passwordGameContract.methods.createBet(1,[1,2,3,4,5,6,7,8,9]);
+	console.log('contract method called')
 }
