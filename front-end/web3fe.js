@@ -12,13 +12,14 @@ async function ethEnabled() {
 	}
 }
 
-async function updateHTML() {
+async function test() {
   const result = await ethEnabled();
-  document.getElementById("fill").innerHTML = 'Wallet connection: ' + result;
+  console.log('Wallet connection: ' + result);
 }
 
 window.onload = function() {
-  updateHTML();		
+	console.log('Connection wallet ...');
+	test();		
 }
 
 var contract_abi = require('/Users/macbook/Sync/Information Systems Dev/blockchain-gambling-game/front-end/abi.json');
