@@ -1,7 +1,4 @@
-//var Web3 = require('web3');
-web3 = new Web3(window.ethereum);
-
-async function ethEnabled() {
+ async function ethEnabled() {
 	if (web3) {
 		try {
 			await window.ethereum.send('eth_requestAccounts');
@@ -22,9 +19,13 @@ window.onload = function() {
 	test();		
 }
 
-var contract_abi = require('/Users/macbook/Sync/Information Systems Dev/blockchain-gambling-game/front-end/abi.json');
+
+
+/*var contract_abi = require('/Users/macbook/Sync/Information Systems Dev/blockchain-gambling-game/front-end/abi.json');
 var contract_address = '0xF28Dfa8306AF0804E20355ED262B42a6aB28aDCB';
 const passwordGameContract = web3.eth.Contract(contract_abi, contract_address);
+
+*/
 
 function bet(){
 	passwordGameContract.methods.createBet(1,[1,2,3,4,5,6,7,8,9]);
