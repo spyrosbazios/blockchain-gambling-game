@@ -1,4 +1,4 @@
- var wallet;
+var wallet;
  
 async function enableEth() {
 //	if (web3) { deprecated but still works ???
@@ -13,7 +13,7 @@ async function enableEth() {
 }
 
 async function connectWallet() {
-	console.log('Connecting wallet ...');
+	console.log('Connecting Wallet ...');
 	if (await enableEth()) {
 		// balance getting needs fix but we're close
 		const balance = await ethereum.sendAsync({
@@ -21,7 +21,7 @@ async function connectWallet() {
 							params: [wallet, "latest"]
 						});
 		console.log('Wallet Address: ' + wallet);
-		console.log('Balance: ' + balance);
+		console.log('Wallet Balance: ' + balance);
 	}
 	else console.log('Connection failed');
 }
