@@ -1,18 +1,32 @@
- async function ethEnabled() {
-	if (web3) {
+ var wallet;
+ 
+async function enableEth() {
+//	if (web3) { deprecated but still works ???
+	if (window.ethereum) { // can be skipped but why ???
 		try {
-			await window.ethereum.send('eth_requestAccounts');
+			await ethereum.send('eth_requestAccounts');
+			wallet = ethereum.selectedAddress;
 			return true;
 		}
 		catch(e) {return false;}
 	}
 }
 
-document.getElementById('connect_wallet').onclick = async function connectWallet() {
+async function connectWallet() {
 	console.log('Connecting wallet ...');
-	const result = await ethEnabled();
-	console.log('Wallet connected: ' + result);
+	if (await enableEth()) {
+		// balance getting needs fix but we're close
+		const balance = await ethereum.sendAsync({
+							method: 'eth_getBalance',
+							params: [wallet, "latest"]
+						});
+		console.log('Wallet Address: ' + wallet);
+		console.log('Balance: ' + balance);
+	}
+	else console.log('Connection failed');
 };
+
+document.getElementById('btn_connect_wallet').onclick = connectWallet;
 
 /*
 var contract_abi = require('/Users/macbook/Sync/Information Systems Dev/blockchain-gambling-game/front-end/abi.json');
