@@ -24,8 +24,8 @@ contract PasswordGame {
         betAmounts = [2, 5, 10];    // randomly chosen, must fix
         winAmounts = [10, 25, 50];  // randomly chosen, must fix
         chances = [29, 47, 61];     // randomly chosen, must fix, should be prime numbers
-                                    // chance is inversed percentage eg chance = 2 means 50%
-    }
+    }                               // chance is inversed percentage eg chance = 2 means 50%
+    
     
     /* checks if a given address is an owner */
     function isOwner(address addr) public view returns (bool) {
@@ -47,7 +47,7 @@ contract PasswordGame {
     function splitFunds(uint amount) public {
         require (isOwner(msg.sender));
         for (uint i = 0; i < owners.length; i++) {
-            (bool success, bytes memory b) = owners[i].call{value: amount/owners.length}('');
+            (bool success,) = owners[i].call{value: amount/owners.length}('');
             assert(success); // if (!success) revert(); works too
         }
     }
@@ -69,22 +69,25 @@ contract PasswordGame {
         for (uint8 i = 0; i < 9; i++) assert (codes[i] >= 1 && codes[i] <= 9);
         assert (betIndex < 3);
 
-        bets[msg.sender] = Bet(true, block.number, betIndex, codes);
-        
         /* ... transfer money ... */
+
+        bets[msg.sender] = Bet(true, block.number, betIndex, codes);
     }
 
     /* withdraws a player's bet */
-    /* an prwta dinei lefta kai meta diagrafei, tote kapoios me ligo gas na parei pisw ta lefta alla na 
-    min diagrapsei to bet tou. An omws prwta diagrafei to bet, prepei na apothikeuei se local metavliti 
-    to posa lefta eixe paiksei ki auto isws kostisei parapanw gas*/
+    /* an prwta dinei lefta kai meta diagrafei, tote kapoios me ligo gas mporei na parei pisw ta lefta 
+    alla na min diagrapsei to bet tou. An omws prwta diagrafei to bet, prepei na apothikeuei se local 
+    metavliti to posa lefta eixe paiksei ki auto isws kostisei parapanw gas */
     function withdrawBet() public {
-        require(bets[msg.sender].init, "You must have placed a bet to withdraw it!");
-        uint8 betAmount = betAmounts[bets[msg.sender].betIndex];
-        uint betBlockNumber = bets[msg.sender].blockNumber;
+        Bet storage b = bets[msg.sender];
+        require(b.init, "You must have placed a bet to withdraw it!");
+
+        uint8 betAmount = betAmounts[b.betIndex];
+        uint betBlockNumber = b.blockNumber;
         delete bets[msg.sender];
+
         if (block.number == betBlockNumber) {
-            (bool success, bytes memory b) = msg.sender.call{value: betAmount}(''); 
+            (bool success,) = msg.sender.call{value: betAmount}(''); 
             assert(success);
         }
     }
@@ -95,27 +98,29 @@ contract PasswordGame {
         require (b.init, "You must have placed a bet to verify it!");
         assert(block.number > b.blockNumber); // or blockhash will fail because the block won't be mined yet
 
-        bool verified = verifyCodes(b.blockNumber, b.codes, chances[b.betIndex]);
-        if (verified) {
-            uint ownerWins = winAmounts[b.betIndex] * interest / 100;
-            uint playerWins = winAmounts[b.betIndex] - ownerWins;
+        uint blockNumber = b.blockNumber;
+        uint8[9] memory codes = b.codes;
+        uint8 betIndex = b.betIndex;
+        delete bets[msg.sender]; // maybe codes are not deleted correctly
 
-            (bool success1, bytes memory b1) = msg.sender.call{value: playerWins}(''); assert(success1);
+        bool verified = verifyCodes(blockNumber, codes, chances[betIndex]);
+        if (verified) {
+            uint ownerWins = winAmounts[betIndex] * interest / 100;
+            uint playerWins = winAmounts[betIndex] - ownerWins;
+
             for (uint i = 0; i < owners.length; i++) {
-                (bool success2, bytes memory b2) = owners[i].call{value: ownerWins/owners.length}(''); 
+                (bool success2,) = owners[i].call{value: ownerWins/owners.length}(''); 
                 assert(success2);
             }
-        }
-        else {
+            (bool success1,) = msg.sender.call{value: playerWins}(''); assert(success1);
+        } else {
             /* ... you have lost ... */
-        }
-
-        delete bets[msg.sender]; // maybe codes are not deleted correctly
+        }      
         return verified;
     }
     
     /* checks if any of a bet's codes has won */
-    function verifyCodes(uint blockNumber, uint8[9] storage codes, uint8 chance) private view returns (bool) {
+    function verifyCodes(uint blockNumber, uint8[9] memory codes, uint8 chance) private view returns (bool) {
         for (uint i = 0; i < 9; i += 3) {
             uint code = codes[i] * 100 + codes[i+1] * 10 + codes[i+2];
             uint hashedCode = uint(keccak256(abi.encodePacked(bytes32(code), blockhash(blockNumber))));
