@@ -1,15 +1,20 @@
 import passwordGame_abi from './contracts/passwordGame.json';
 
 var wallet;
+var balance;
  
 async function enableEth() {
 //	if (web3) { deprecated but still works ???
 	if (window.ethereum) { // can be skipped but why ???
 		try {
+<<<<<<< HEAD
 			await ethereum.send('eth_requestAccounts');
 			//const accounts = await ethereum.request({ method: 'eth_accounts' });
 
 			wallet = ethereum.selectedAddress;
+=======
+			await ethereum.send('eth_requestAccounts');	
+>>>>>>> refs/remotes/origin/master
 			return true;
 		}
 		catch(e) {return false;}
@@ -19,12 +24,12 @@ async function enableEth() {
 async function connectWallet() {
 	console.log('Connecting Wallet ...');
 	if (await enableEth()) {
-		// balance getting needs fix but we're close
-		const balance = await ethereum.sendAsync({
+		wallet = ethereum.selectedAddress;
+		console.log('Wallet Address: ' + wallet);
+		balance = await ethereum.request({
 							method: 'eth_getBalance',
 							params: [wallet, "latest"]
 						});
-		console.log('Wallet Address: ' + wallet);
 		console.log('Wallet Balance: ' + balance);
 	}
 	else console.log('Connection failed');
