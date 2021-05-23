@@ -1,5 +1,4 @@
-import passwordGame_abi from './contracts/passwordGame.json';
-
+import Web3 from 'web3';
 var wallet;
  
 async function enableEth() {
@@ -16,6 +15,7 @@ async function enableEth() {
 	}
 }
 
+document.getElementById('btn_connect_wallet').onclick = connectWallet; 
 async function connectWallet() {
 	console.log('Connecting Wallet ...');
 	if (await enableEth()) {
@@ -30,18 +30,16 @@ async function connectWallet() {
 	else console.log('Connection failed');
 }
 
-document.getElementById('btn_connect_wallet').onclick = connectWallet;
 
+var contract_address = '0xF28Dfa8306AF0804E20355ED262B42a6aB28aDCB';
+ const passwordGameContract = web3.eth.Contract(window.abi, contract_address);
 
-var contract_abi = ('/Users/macbook/Sync/Information Systems Dev/blockchain-gambling-game/front-end/abi.json');
- var contract_address = '0xF28Dfa8306AF0804E20355ED262B42a6aB28aDCB';
- const passwordGameContract = web3.eth.Contract(contract_abi, contract_address);
-
- function bet() {
+ document.getElementById('btn_bet').onclick = bet;
+ async function bet() {
  	passwordGameContract.methods.createBet(1,[1,2,3,4,5,6,7,8,9]);
  	console.log('contract method called')
  }
 
 
- document.getElementById('btn_bet').onclick = connectWallet;
+
 
