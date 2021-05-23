@@ -4,8 +4,7 @@ async function enableEth() {
 //	if (web3) { deprecated but still works ???
 	if (window.ethereum) { // can be skipped but why ???
 		try {
-			await ethereum.send('eth_requestAccounts');
-			wallet = ethereum.selectedAddress;
+			await ethereum.send('eth_requestAccounts');	
 			return true;
 		}
 		catch(e) {return false;}
@@ -15,12 +14,12 @@ async function enableEth() {
 async function connectWallet() {
 	console.log('Connecting Wallet ...');
 	if (await enableEth()) {
-		// balance getting needs fix but we're close
-		const balance = await ethereum.sendAsync({
+		wallet = ethereum.selectedAddress;
+		console.log('Wallet Address: ' + wallet);
+		const balance = await ethereum.request({
 							method: 'eth_getBalance',
 							params: [wallet, "latest"]
 						});
-		console.log('Wallet Address: ' + wallet);
 		console.log('Wallet Balance: ' + balance);
 	}
 	else console.log('Connection failed');
