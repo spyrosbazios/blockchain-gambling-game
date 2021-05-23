@@ -1,4 +1,4 @@
-import Web3 from 'web3';
+//import Web3 from 'web3';
 var wallet;
  
 async function enableEth() {
@@ -31,8 +31,8 @@ async function connectWallet() {
 }
 
 
-var contract_address = '0xF28Dfa8306AF0804E20355ED262B42a6aB28aDCB';
- const passwordGameContract = web3.eth.Contract(window.abi, contract_address);
+//var contract_address = '0xF28Dfa8306AF0804E20355ED262B42a6aB28aDCB';
+ //const passwordGameContract = web3.eth.Contract(window.abi, contract_address);
 
  document.getElementById('btn_bet').onclick = bet;
  async function bet() {
