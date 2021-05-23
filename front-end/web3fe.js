@@ -1,4 +1,5 @@
 var wallet;
+var balance;
  
 async function enableEth() {
 //	if (web3) { deprecated but still works ???
@@ -16,7 +17,7 @@ async function connectWallet() {
 	if (await enableEth()) {
 		wallet = ethereum.selectedAddress;
 		console.log('Wallet Address: ' + wallet);
-		const balance = await ethereum.request({
+		balance = await ethereum.request({
 							method: 'eth_getBalance',
 							params: [wallet, "latest"]
 						});
