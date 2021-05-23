@@ -1,26 +1,23 @@
 //import Web3 from 'web3';
 var wallet;
+var balance;
  
 async function enableEth() {
 //	if (web3) { deprecated but still works ???
 	if (window.ethereum) { // can be skipped but why ???
 		try {
-			await ethereum.send('eth_requestAccounts');
-			//const accounts = await ethereum.request({ method: 'eth_accounts' });
-
-			wallet = ethereum.selectedAddress;
+			await ethereum.send('eth_requestAccounts');		
 			return true;
 		}
 		catch(e) {return false;}
 	}
 }
 
-document.getElementById('btn_connect_wallet').onclick = connectWallet; 
 async function connectWallet() {
 	console.log('Connecting Wallet ...');
 	if (await enableEth()) {
-		// balance getting needs fix but we're close
-		const balance = await ethereum.sendAsync({
+		wallet = ethereum.selectedAddress;
+		balance = await ethereum.request({
 							method: 'eth_getBalance',
 							params: [wallet, "latest"]
 						});
@@ -30,9 +27,11 @@ async function connectWallet() {
 	else console.log('Connection failed');
 }
 
+document.getElementById('btn_connect_wallet').onclick = connectWallet; 
+
 
 //var contract_address = '0xF28Dfa8306AF0804E20355ED262B42a6aB28aDCB';
- //const passwordGameContract = web3.eth.Contract(window.abi, contract_address);
+//const passwordGameContract = web3.eth.Contract(window.abi, contract_address);
 
  document.getElementById('btn_bet').onclick = bet;
  async function bet() {
