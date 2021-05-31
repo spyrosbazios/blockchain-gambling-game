@@ -63,21 +63,19 @@ contract PasswordGame {
     /* getters */
 
     /* creates a bet for a player */
-    function createBet(uint8 betIndex, uint8[9] calldata codes) public {
-        require(msg.sender.balance >= betAmounts[betIndex] && !bets[msg.sender].init, "Please make sure you have sufficient funds and no active bets!");
+    function createBet(uint8 betIndex, uint8[9] calldata codes) public payable {
+        require(msg.value >= betAmounts[betIndex] && !bets[msg.sender].init, "Please make sure you have sufficient funds and no active bets!");
         require(address(this).balance >= winAmounts[betIndex], "There's not enough money in the contract in case you win!");
-        for (uint8 i = 0; i < 9; i++) assert (codes[i] >= 1 && codes[i] <= 9);
-        assert (betIndex < 3);
+        for (uint8 i = 0; i < 9; i++) require(codes[i] >= 1 && codes[i] <= 9);
+        require(betIndex < 3);
 
-        /* ... transfer money ... */
-
+        uint change = msg.value - betAmounts[betIndex];
         bets[msg.sender] = Bet(true, block.number, betIndex, codes);
+        (bool success,) = msg.sender.call{value: change}(''); 
+        assert(success);
     }
 
     /* withdraws a player's bet */
-    /* an prwta dinei lefta kai meta diagrafei, tote kapoios me ligo gas mporei na parei pisw ta lefta 
-    alla na min diagrapsei to bet tou. An omws prwta diagrafei to bet, prepei na apothikeuei se local 
-    metavliti to posa lefta eixe paiksei ki auto isws kostisei parapanw gas */
     function withdrawBet() public {
         Bet storage b = bets[msg.sender];
         require(b.init, "You must have placed a bet to withdraw it!");
