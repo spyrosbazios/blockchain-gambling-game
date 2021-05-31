@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Chara Gergi">
+	<meta name="viewport" content="width=device-width, initial-scale=2.0">
+    <link rel="stylesheet" type="text/css" href="box-game.css">
+    <title> Box Game </title>
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="container"> 
+
+
+            <div class= "pin-box">   
+
+            <img src="gameplay-assets/cross.png" id="cross1" width = "12px" height="12px" style="margin-right: 2rem;">         
+            <div class="patternlock success" id="lock" >
+
+                <p> </p>
+
+                    <div class="triplets">
+                        <button id= "11"> 1 </button>
+                        <button id= "12"> 4 </button>
+                        <button id= "13"> 7 </button>
+                    </div>
+
+
+                    <div class="triplets">
+                        <button id= "14"> 2 </button>
+                        <button id= "15"> 5 </button>
+                        <button id= "16"> 8 </button>
+                    </div>
+
+                    <div class="triplets">
+                        <button id= "17"> 3 </button>
+                        <button id= "18"> 6 </button>
+                        <button id= "19"> 9 </button>
+                    </div>
+                </div>
+                
+                <img src="gameplay-assets/polygon.png" width = "40px" height="28px" style="margin-left: -3rem; margin-top: 4.4rem;">
+                <img src="gameplay-assets/key.png" width = "180px" height="100px" style="margin-left: 1rem; margin-top: 2.2rem;">
+            </div>
+
+            <div class= "pin-box">
+
+                <img src="gameplay-assets/cross.png" id="cross2" width = "12px" height="12px" style="margin-right: 2rem;">
+                <div class="patternlock success" id="lock2" >
+                    <div class="triplets">
+                        <button id= "21"> 1 </button>
+                        <button id= "22"> 4 </button>
+                        <button id= "23"> 7 </button>
+                    </div>
+
+                    <div class="triplets">
+                        <button id= "24"> 2 </button>
+                        <button id= "25"> 5 </button>
+                        <button id= "26"> 8 </button>
+                    </div>
+
+                    <div class="triplets">
+                        <button id= "27"> 3 </button>
+                        <button id= "28"> 6 </button>
+                        <button id= "29"> 9 </button>
+                    </div>
+                </div>
+
+                <img src="gameplay-assets/polygon.png" width = "40px" height="28px" style="margin-left: -3rem; margin-top: 4.4rem;">
+                <img src="gameplay-assets/key.png" width = "180px" height="100px" style="margin-left: 1rem; margin-top: 2.2rem;">
+            </div>
+
+            <div class= "pin-box">
+                <div class="patternlock success" id="lock3" >
+                    <div class="triplets">
+                        <button id= "31"> 1 </button>
+                        <button id= "32"> 4 </button>
+                        <button id= "33"> 7 </button>
+                    </div>
+                    
+                    <div class="triplets">
+                        <button id= "34"> 2 </button>
+                        <button id= "35"> 5 </button>
+                        <button id= "36"> 8 </button>
+                    </div>
+
+                    <div class="triplets">
+                        <button id= "37"> 3 </button>
+                        <button id= "38"> 6 </button>
+                        <button id= "39"> 9 </button>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+
+        <div class="swiper swiper-area">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="230" height="100" >
+                <!--<defs>
+                    <pattern id="image" patternUnits="userSpaceOnUse" height="100" width="100">
+                        <image x="0" y="0" height="100" width="100" href="UI/icons/box.png"/>
+                    </pattern>
+                </defs>-->
+                    <g id="dotted-line" class="dotted-line">
+                    <circle cx="40" cy="22" r="3"></circle>
+                    <circle cx="60" cy="22" r="3"></circle>
+                    <circle cx="80" cy="22" r="3"></circle>
+                    <circle cx="100" cy="22" r="3"></circle>
+                    <circle cx="120" cy="22" r="3"></circle>
+                    <circle cx="140" cy="22" r="3"></circle>
+                    <circle cx="160" cy="22" r="3"></circle>
+                    <circle cx="180" cy="22" r="3"></circle>
+                    <circle cx="200" cy="22" r="3"></circle>
+                    <circle cx="220" cy="22" r="3"></circle>
+                    </g>
+                    <!--<path id="swipe-end" class="swipe-end" d="M 9.000,1.000 
+                                                              C 13.418,1.000 17.000,4.582 17.000,9.000 
+                                                              C 17.000,13.418 13.418,16.999 9.000,16.999 
+                                                              C 4.582,16.999 1.000,13.418 1.000,9.000 
+                                                              C 1.000,4.582 4.582,1.000 9.000,1.000 
+                                                              Z"/>
+                    <rect   width="100" height="100" fill="url(#image)" />-->
+                    <a id="swipe-btn" class="swipe-btn" >
+                    <g>
+                        <path fill-rule="evenodd"  fill="rgb(237, 112, 0)"
+                            d="M 22.000,0.001 
+                               C 34.150,0.001 44.000,9.850 44.000,22.000 
+                               C 44.000,34.150 34.150,44.000 22.000,44.000 
+                               C 9.850,44.000 0.000,34.150 0.000,22.000 
+                               C 0.000,9.850 9.850,0.001 22.000,0.001 
+                               Z"/>
+                        <path id="swipe-arrow" class="arrow" fill-rule="evenodd" 
+                            d="M 12.551,8.707 
+                               L 5.256,1.412 
+                               C 4.270,0.426 2.672,0.426 1.686,1.412 
+                               C 0.701,2.398 0.701,3.996 1.686,4.981 
+                               L 7.197,10.492 L1.686,16.003 
+                               C 0.701,16.988 0.701,18.587 1.686,19.572 
+                               C 2.672,20.558 4.270,20.558 5.256,19.572 
+                               L 12.551,12.276 
+                               C 13.537,11.292 13.537,9.693 12.551,8.707 
+                               Z"/>
+                    </g>
+                    </a>
+                </svg>
+
+                <img src="gameplay-assets/box-lock.png" height="210" width="235"  id="swipe-end" class="swipe-end"/>
+        </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
+
+    <script src="vendor.js"></script>
+    <script src="box-game.js"></script>
+    <script type="text/javascript">
+    var e = document.getElementById('lock')
+    var p = new PatternLock(e, {
+        onPattern: function() {
+            this.success()
+        }
+    });
+
+    var e2 = document.getElementById('lock2')
+    var p2 = new PatternLock(e2, {
+        onPattern: function() {
+            this.success()
+        }
+    });
+
+     var e3 = document.getElementById('lock3')
+    var p3 = new PatternLock(e3, {
+        onPattern: function() {
+            this.success()
+        }
+    });
+    </script>
+</body>
+
+</html>
