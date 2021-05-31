@@ -69,10 +69,9 @@ contract PasswordGame {
         for (uint8 i = 0; i < 9; i++) require(codes[i] >= 1 && codes[i] <= 9);
         require(betIndex < 3);
 
-        uint change = msg.value - betAmounts[betIndex];
         bets[msg.sender] = Bet(true, block.number, betIndex, codes);
-        (bool success,) = msg.sender.call{value: change}(''); 
-        assert(success);
+        uint change = msg.value - betAmounts[betIndex];
+        (bool success,) = msg.sender.call{value: change}(''); assert(success);
     }
 
     /* withdraws a player's bet */
@@ -94,7 +93,7 @@ contract PasswordGame {
     function verifyBet() public returns (bool) {
         Bet storage b = bets[msg.sender];
         require (b.init, "You must have placed a bet to verify it!");
-        assert(block.number > b.blockNumber); // or blockhash will fail because the block won't be mined yet
+        require(block.number > b.blockNumber); // or blockhash will fail because the block won't be mined yet
 
         uint blockNumber = b.blockNumber;
         uint8[9] memory codes = b.codes;
