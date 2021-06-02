@@ -63,7 +63,7 @@ contract PasswordGame {
     /* getters */
 
     /* creates a bet for a player */
-    function createBet(uint8 betIndex, uint8[9] calldata codes) public payable {
+    function createBet(uint8 betIndex, uint8[9] calldata codes) external payable {
         require(msg.value >= betAmounts[betIndex] && !bets[msg.sender].init, "Please make sure you have sufficient funds and no active bets!");
         require(address(this).balance >= winAmounts[betIndex], "There's not enough money in the contract in case you win!");
         for (uint8 i = 0; i < 9; i++) require(codes[i] >= 1 && codes[i] <= 9);

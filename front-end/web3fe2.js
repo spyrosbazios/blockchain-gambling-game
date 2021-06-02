@@ -1,59 +1,36 @@
-//import Web3 from 'web3';
-var wallet;
-var balance;
- 
-async function enableEth() {
-//	if (web3) { deprecated but still works ???
-	if (window.ethereum) { // can be skipped but why ???
-		try {
-			await ethereum.send('eth_requestAccounts');		
-			return true;
-		}
-		catch(e) {return false;}
-	}
-}
 
-async function connectWallet() {
-	console.log('Connecting Wallet ...');
-	if (await enableEth()) {
-		wallet = ethereum.selectedAddress;
-		balance = await ethereum.request({
-							method: 'eth_getBalance',
-							params: [wallet, "latest"]
-						});
-		console.log('Wallet Address: ' + wallet);
-		console.log('Wallet Balance: ' + balance);
-	}
-	else console.log('Connection failed');
-}
-
-document.getElementById('btn_connect_wallet').onclick = connectWallet; 
-
-const getContract = async (web3) => {
-  //const data = await $.getJSON("./contracts/Greeting.json");
-
-  const netId = await web3.eth.net.getId();
-  const deployedNetwork = data.networks[netId];
-  const greeting = new web3.eth.Contract(
-    abi,
-    deployedNetwork && deployedNetwork.address
-  );
-  console.log('greeting');
-  return greeting;
-};
-
-//var contract_address = '0xF28Dfa8306AF0804E20355ED262B42a6aB28aDCB';
-//const passwordGameContract = web3.eth.Contract(abi, contract_address);
-
- document.getElementById('btn_bet').onclick = bet;
- async function bet() {
-  var contract = getContract;
- 	contract.methods.createBet(1,[1,2,3,4,5,6,7,8,9]);
- 	console.log('contract method called')
- }
+  const getWeb3 = () => {
+    return new Promise((resolve, reject) => {
+      window.addEventListener("load", async () => {
+        if (window.ethereum) {
+          const web3 = new Web3(window.ethereum);
+          try {
+            // ask user permission to access his accounts
+            await window.ethereum.request({ method: "eth_requestAccounts" });
+            resolve(web3);
+          } catch (error) {
+            reject(error);
+          }
+        } else {
+          reject("must install MetaMask");
+        }
+      });
+    });
+  };
+  
+  const getContract = async (web3) => {
+  
+    const netId = await web3.eth.net.getId();
+    const deployedNetwork = 5777;
+    const passwordGame_contract = new web3.eth.Contract(
+      abi, '0xF28Dfa8306AF0804E20355ED262B42a6aB28aDCB'
+    );
+    console.log(passwordGame_contract)
+    return passwordGame_contract;
+  };
 
 
- var abi = [
+  var abi = [
     {
       "inputs": [],
       "stateMutability": "nonpayable",
@@ -200,8 +177,9 @@ const getContract = async (web3) => {
       ],
       "name": "createBet",
       "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
+      "stateMutability": "payable",
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [],
@@ -225,3 +203,17 @@ const getContract = async (web3) => {
     }
   ]
 
+  async function passwordGame_App() {
+    const web3 = await getWeb3();
+    const accounts = await web3.eth.getAccounts();
+    const passwordGame_contract = await getContract(web3);
+    await passwordGame_contract.methods
+        .createBet(0,[1,2,3,4,5,6,7,8,9]) 
+        .send({ from: accounts[0], gas: 40000, value: 100000000000000000 });
+    
+
+  
+  }
+  document.getElementById('btn_bet').onclick = passwordGame_App(); 
+
+ 
