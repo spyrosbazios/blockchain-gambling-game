@@ -12,6 +12,23 @@ body {
   flex-direction: column;
   margin: auto;
   height: 100vh;
+
+}
+
+#box-container{
+    width: 600px;
+    height: 800px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    margin-left: -1.5rem;
+}
+
+#forge-keys-container{
+    width: 660px;
+    height: 360px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    margin: -9rem 3rem;
 }
 
 .main-container {
@@ -34,18 +51,21 @@ body {
     text-align: center;
     height: 100vh;
     position: absolute;
-    top: 100%;
+    top: 75%;
     left: 75%; 
     transform: translate(-50%, -50%);
     /* width: 400px; */
 }
 .swiper .swipe-btn {
     cursor: pointer;
-    margin-top: 3rem;
+    margin-top: 6rem;
+    margin-left: -25.5rem;
 }
 
-.swiper .swipe-btn .circle {
+/* .swiper .swipe-btn .circle {
     fill: #ed7000;
+    margin-top: 4rem;
+
 }
 .swiper .swipe-btn .arrow {
     stroke: #ed7000;
@@ -53,16 +73,19 @@ body {
     stroke-linecap: butt;
     stroke-linejoin: miter;
     fill: #f4ece1;
-}
-.swiper .swipe-end {
-    margin-top: -23%;
-    margin-left: 50%; 
-    transform: translate(-50%, -50%);
-}
+    margin-top: 4rem;
+
+} */
+/* .swiper .swipe-end {
+    /* margin-top: -23%;
+    margin-left: 50%;  
+    transform: translate(25%, 54%);
+    margin-top: 4rem;
+
+} */
 .swiper .dotted-line circle {
     fill: wheat;
-    margin-top: 3rem;
-
+    margin-top: 4rem;
 }
 
 .patternlock button{
@@ -73,13 +96,10 @@ body {
     margin: 0.3rem 0.3rem;
 }
 
-#lock{
-    margin-top: 5rem;
-}
 
 #lock2, #lock3{
-    margin-top: -2rem;
-}
+    margin-top: -3rem;
+} 
 
 #lock,#lock2, #lock3 {
     width: 100%;
@@ -107,8 +127,11 @@ body {
 
 }
 
+#pin-box2, #pin-box3{
+    opacity: 0.5;
+}
+
 /* .triplets svg.circle{
     fill: white;
     stroke:  transparent;
 } */
-

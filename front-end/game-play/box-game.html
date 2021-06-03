@@ -14,96 +14,102 @@
     <div class="main-container">
         <div class="container"> 
 
+        <div id="box-container">    
+            <p style="color: white; margin-right: 15rem; "> SOMETHING </p>
 
-            <div class= "pin-box">   
+            <div class= "pin-box" id="pin-box1">   
 
-            <img src="gameplay-assets/cross.png" id="cross1" width = "12px" height="12px" style="margin-right: 2rem;">         
+            <img src="gameplay-assets/cross.png" id="cross1" width = "12px" height="12px" style="margin-right: 2rem; margin-top: 5.7rem; margin-left:2rem;">         
             <div class="patternlock success" id="lock" >
 
                 <p> </p>
 
                     <div class="triplets">
-                        <button id= "11"> 1 </button>
-                        <button id= "12"> 4 </button>
-                        <button id= "13"> 7 </button>
+                        <button id= "11" onClick="getBtnId(this.id)"> 1 </button>
+                        <button id= "14" onClick="getBtnId(this.id)"> 4 </button>
+                        <button id= "17" onClick="getBtnId(this.id)"> 7 </button>
                     </div>
 
 
                     <div class="triplets">
-                        <button id= "14"> 2 </button>
-                        <button id= "15"> 5 </button>
-                        <button id= "16"> 8 </button>
+                        <button id= "12" onClick="getBtnId(this.id)"> 2 </button>
+                        <button id= "15" onClick="getBtnId(this.id)"> 5 </button>
+                        <button id= "18" onClick="getBtnId(this.id)"> 8 </button>
                     </div>
 
                     <div class="triplets">
-                        <button id= "17"> 3 </button>
-                        <button id= "18"> 6 </button>
-                        <button id= "19"> 9 </button>
+                        <button id= "13" onClick="getBtnId(this.id)"> 3 </button>
+                        <button id= "16" onClick="getBtnId(this.id)"> 6 </button>
+                        <button id= "19" onClick="getBtnId(this.id)"> 9 </button>
                     </div>
                 </div>
                 
-                <img src="gameplay-assets/polygon.png" width = "40px" height="28px" style="margin-left: -3rem; margin-top: 4.4rem;">
-                <img src="gameplay-assets/key.png" width = "180px" height="100px" style="margin-left: 1rem; margin-top: 2.2rem;">
+                <img src="gameplay-assets/polygon.png" id="polygon1" width = "40px" height="28px" style="margin-left: -3rem; margin-top: 5rem;">
+                <img src="gameplay-assets/key.png" id="key1" width = "180px" height="100px" style="margin-left: 1rem; margin-top: 3rem;">
+                <p id="code3"></p>
             </div>
 
-            <div class= "pin-box">
+            <div class= "pin-box" id="pin-box2">
 
-                <img src="gameplay-assets/cross.png" id="cross2" width = "12px" height="12px" style="margin-right: 2rem;">
+                <img src="gameplay-assets/cross.png" id="cross2" width = "12px" height="12px" style="margin-right: 2rem; margin-top:4rem; margin-left:2rem;">
                 <div class="patternlock success" id="lock2" >
                     <div class="triplets">
-                        <button id= "21"> 1 </button>
-                        <button id= "22"> 4 </button>
-                        <button id= "23"> 7 </button>
+                        <button id= "21" onClick="getBtnId(this.id)"> 1 </button>
+                        <button id= "24" onClick="getBtnId(this.id)"> 4 </button>
+                        <button id= "27" onClick="getBtnId(this.id)"> 7 </button>
                     </div>
 
                     <div class="triplets">
-                        <button id= "24"> 2 </button>
-                        <button id= "25"> 5 </button>
-                        <button id= "26"> 8 </button>
+                        <button id= "22" onClick="getBtnId(this.id)"> 2 </button>
+                        <button id= "25" onClick="getBtnId(this.id)"> 5 </button>
+                        <button id= "28" onClick="getBtnId(this.id)"> 8 </button>
                     </div>
 
                     <div class="triplets">
-                        <button id= "27"> 3 </button>
-                        <button id= "28"> 6 </button>
-                        <button id= "29"> 9 </button>
+                        <button id= "23" onClick="getBtnId(this.id)"> 3 </button>
+                        <button id= "26" onClick="getBtnId(this.id)"> 6 </button>
+                        <button id= "29" onClick="getBtnId(this.id)"> 9 </button>
                     </div>
                 </div>
 
-                <img src="gameplay-assets/polygon.png" width = "40px" height="28px" style="margin-left: -3rem; margin-top: 4.4rem;">
-                <img src="gameplay-assets/key.png" width = "180px" height="100px" style="margin-left: 1rem; margin-top: 2.2rem;">
+                <img src="gameplay-assets/polygon.png" id="polygon2" width = "40px" height="28px" style="margin-left: -3rem; margin-top: 3.6rem;">
+                <img src="gameplay-assets/key.png" id="key2" width = "180px" height="100px" style="margin-left: 1rem; margin-top: 1.5rem;">
+                <p id="code2"></p>
             </div>
 
-            <div class= "pin-box">
+            <div class= "pin-box" id="pin-box3">
+
+            <img src="gameplay-assets/cross.png" id="cross3" width = "12px" height="12px" style="margin-right: 2rem; margin-top:4rem; margin-left:2rem;">   
                 <div class="patternlock success" id="lock3" >
                     <div class="triplets">
-                        <button id= "31"> 1 </button>
-                        <button id= "32"> 4 </button>
-                        <button id= "33"> 7 </button>
+                        <button id= "31" onClick="getBtnId(this.id)"> 1 </button>
+                        <button id= "34" onClick="getBtnId(this.id)"> 4 </button>
+                        <button id= "37" onClick="getBtnId(this.id)"> 7 </button>
                     </div>
                     
                     <div class="triplets">
-                        <button id= "34"> 2 </button>
-                        <button id= "35"> 5 </button>
-                        <button id= "36"> 8 </button>
+                        <button id= "32" onClick="getBtnId(this.id)"> 2 </button>
+                        <button id= "35" onClick="getBtnId(this.id)"> 5 </button>
+                        <button id= "38" onClick="getBtnId(this.id)"> 8 </button>
                     </div>
 
                     <div class="triplets">
-                        <button id= "37"> 3 </button>
-                        <button id= "38"> 6 </button>
-                        <button id= "39"> 9 </button>
+                        <button id= "33" onClick="getBtnId(this.id)"> 3 </button>
+                        <button id= "36" onClick="getBtnId(this.id)"> 6 </button>
+                        <button id= "39" onClick="getBtnId(this.id)"> 9 </button>
                     </div>
                 </div>
+                <img src="gameplay-assets/polygon.png" id="polygon3" width = "40px" height="28px" style="margin-left: -3rem; margin-top: 3.6rem;">
+                <img src="gameplay-assets/key.png" id="key3" width = "180px" height="100px" style="margin-left: 1rem; margin-top: 1.5rem;">
+                <p id="code3"></p>
+            </div>
             </div>
         </div> 
 
 
         <div class="swiper swiper-area">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="230" height="100" >
-                <!--<defs>
-                    <pattern id="image" patternUnits="userSpaceOnUse" height="100" width="100">
-                        <image x="0" y="0" height="100" width="100" href="UI/icons/box.png"/>
-                    </pattern>
-                </defs>-->
+            <div id="forge-keys-container">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="230" height="100" style="transform: translate(10%, 20%);">
                     <g id="dotted-line" class="dotted-line">
                     <circle cx="40" cy="22" r="3"></circle>
                     <circle cx="60" cy="22" r="3"></circle>
@@ -116,14 +122,16 @@
                     <circle cx="200" cy="22" r="3"></circle>
                     <circle cx="220" cy="22" r="3"></circle>
                     </g>
-                    <!--<path id="swipe-end" class="swipe-end" d="M 9.000,1.000 
+                    <path id="swipe-end" class="swipe-end" d="M 9.000,1.000 
                                                               C 13.418,1.000 17.000,4.582 17.000,9.000 
                                                               C 17.000,13.418 13.418,16.999 9.000,16.999 
                                                               C 4.582,16.999 1.000,13.418 1.000,9.000 
                                                               C 1.000,4.582 4.582,1.000 9.000,1.000 
                                                               Z"/>
-                    <rect   width="100" height="100" fill="url(#image)" />-->
-                    <a id="swipe-btn" class="swipe-btn" >
+                    </path>
+                    </svg>
+                    <img src="gameplay-assets/keychain.png" id="swipe-btn" class="swipe-btn" height="190" width="190">
+                    <!-- <a id="swipe-btn" class="swipe-btn" >
                     <g>
                         <path fill-rule="evenodd"  fill="rgb(237, 112, 0)"
                             d="M 22.000,0.001 
@@ -145,16 +153,17 @@
                                Z"/>
                     </g>
                     </a>
-                </svg>
+                </svg> -->
 
-                <img src="gameplay-assets/box-lock.png" height="210" width="235"  id="swipe-end" class="swipe-end"/>
+                <img src="gameplay-assets/box-lock.png" height="210" width="235"  id="swipe-end" class="swipe-end" style="transform: translate(-0%, 10%);"/>
+            </div>
         </div>
     </div>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
 
-    <script src="vendor.js"></script>
+    <!---> <script src="vendor.js"></script>
     <script src="box-game.js"></script>
     <script type="text/javascript">
     var e = document.getElementById('lock')
@@ -177,7 +186,5 @@
             this.success()
         }
     });
-    </script>
+    </script> -->
 </body>
-
-</html>
