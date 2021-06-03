@@ -23,18 +23,31 @@
     const netId = await web3.eth.net.getId();
     const deployedNetwork = 5777;
     const passwordGame_contract = new web3.eth.Contract(
-      abi, '0xF28Dfa8306AF0804E20355ED262B42a6aB28aDCB'
+      abi, '0x4d7c26b7C9257f13524C61C99805D20E179fd420'
     );
     console.log(passwordGame_contract)
     return passwordGame_contract;
   };
 
 
-  var abi = [
+  var abi =  [
     {
       "inputs": [],
       "stateMutability": "nonpayable",
       "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "debugVar",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "inputs": [
@@ -53,8 +66,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -99,8 +111,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -119,8 +130,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -139,8 +149,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -159,8 +168,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -178,8 +186,7 @@
       "name": "createBet",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function",
-      "payable": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -202,16 +209,19 @@
       "type": "function"
     }
   ]
-
+  //const passwordGame_contract
   async function passwordGame_App() {
     const web3 = await getWeb3();
     const accounts = await web3.eth.getAccounts();
     const passwordGame_contract = await getContract(web3);
+    //await passwordGame_contract.methods
+       // .createBet(0,[1,2,3,4,5,6,7,8,9]) 
+       // .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: 100000000000000000 });
+    
     await passwordGame_contract.methods
-        .createBet(0,[1,2,3,4,5,6,7,8,9]) 
-        .send({ from: accounts[0], gas: 21000, value: 100000000000000000 });
+       .verifyBet()
+       .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000});
 
-  }
-  document.getElementById('btn_bet').onclick = passwordGame_App(); 
+  }document.getElementById('btn_bet').onclick = passwordGame_App(); 
 
  

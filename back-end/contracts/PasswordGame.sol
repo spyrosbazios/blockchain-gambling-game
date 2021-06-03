@@ -16,11 +16,12 @@ contract PasswordGame {
         uint8 betIndex;
         uint8[9] codes;
     }
-    
+    uint public debugVar;
+
     mapping (address => Bet) bets;
     
     constructor() {
-        owners = [0x9a267D357488fB3b8fdEE8C32694b6075c3a2044 /* <- example, our 3 addresses here */];
+        owners = [0xc8D60A3eF175FfBD945bfB0cdBd45F20B36036AC, 0x2C74134A11Ea1D42005E4dF91C454238D52f14D1  /* <- example, our 3 addresses here */];
         betAmounts = [2, 5, 10];    // randomly chosen, must fix
         winAmounts = [10, 25, 50];  // randomly chosen, must fix
         chances = [29, 47, 61];     // randomly chosen, must fix, should be prime numbers
@@ -71,6 +72,7 @@ contract PasswordGame {
 
         bets[msg.sender] = Bet(true, block.number, betIndex, codes);
         uint change = msg.value - betAmounts[betIndex];
+        debugVar = change;
         (bool success,) = msg.sender.call{value: change}(''); assert(success);
     }
 
@@ -125,7 +127,6 @@ contract PasswordGame {
         }
         return false;
     }
-
 }
 
 /* 
