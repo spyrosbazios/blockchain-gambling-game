@@ -209,10 +209,8 @@
     const passwordGame_contract = await getContract(web3);
     await passwordGame_contract.methods
         .createBet(0,[1,2,3,4,5,6,7,8,9]) 
-        .send({ from: accounts[0], gas: 40000, value: 100000000000000000 });
-    
+        .send({ from: accounts[0], gas: 21000, value: 100000000000000000 });
 
-  
   }
   document.getElementById('btn_bet').onclick = passwordGame_App(); 
 
