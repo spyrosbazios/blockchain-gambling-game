@@ -23,18 +23,31 @@
     const netId = await web3.eth.net.getId();
     const deployedNetwork = 5777;
     const passwordGame_contract = new web3.eth.Contract(
-      abi, '0x4d7c26b7C9257f13524C61C99805D20E179fd420'
+      abi, '0x5eBE53A1756ec98071807c33e58e62A6D0B99547'
     );
     console.log(passwordGame_contract)
     return passwordGame_contract;
   };
 
 
-  var abi =  [
+  var abi =   [
     {
       "inputs": [],
       "stateMutability": "nonpayable",
       "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "name": "debugEvent",
+      "type": "event"
     },
     {
       "inputs": [],
@@ -215,13 +228,30 @@
     const accounts = await web3.eth.getAccounts();
     const passwordGame_contract = await getContract(web3);
     //await passwordGame_contract.methods
-       // .createBet(0,[1,2,3,4,5,6,7,8,9]) 
-       // .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: 100000000000000000 });
+      //  .createBet(0,[1,2,3,4,5,6,7,8,9]) 
+    //    .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: 100000000000000000 });
+
+    /*
+    console.log(
+      await passwordGame_contract.methods.getBetInit(accounts[0]).send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000 })
+    );
+    */
     
-    await passwordGame_contract.methods
-       .verifyBet()
-       .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000});
+    //passwordGame_contract.methods.getBetInit(accounts[0]).call()
+    //.then (console.log);
+
+    passwordGame_contract.methods.verifyBet().send({ from: accounts[0], gas: 91000, gasPrice: 10000000000000 })
+    .then (console.log);
+    
+    //await passwordGame_contract.methods
+     //  .verifyBet()
+     //  .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000});
 
   }document.getElementById('btn_bet').onclick = passwordGame_App(); 
 
- 
+ /*
+  var debug = passwordGame_contract.debugEvent();
+  debug.watch(function(error, result){
+    if (!error){console.log(result)}
+  })
+ */
