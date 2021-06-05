@@ -1,3 +1,5 @@
+![tyche-cover](/Users/macbook/Sync/Information Systems Dev/blockchain-gambling-game/UI/icons/tyche-cover.png)
+
 # Project Tyche: *Decentralized casino built on Ethereum blockchain* 
 
  The need for a fair gambling experience and our curiosity for the blockchain technology led us to the creation of Tyche.
