@@ -13,7 +13,6 @@ contract PasswordGame {
     uint8[] chances;
 
     struct Bet {
-        bool init;
         uint blockNumber;
         uint8 betIndex;
         uint8[9] codes;
@@ -22,11 +21,11 @@ contract PasswordGame {
     mapping (address => Bet) bets;
     
     constructor() payable {
-        require(msg.value > 500 ether, "You need a least 500 ether to deploy the contract");
+        require(msg.value >= 500 ether, "You need a least 500 ether to deploy the contract");
         active = true;
         owners.push(msg.sender);
-        betAmounts = [1 ether, 2 ether, 3 ether];     // randomly chosen, must fix
-        winAmounts = [10 ether, 20 ether, 30 ether];  // randomly chosen, must fix
+        betAmounts = [0, 1 ether, 2 ether, 3 ether];     // randomly chosen, must fix
+        winAmounts = [0, 10 ether, 20 ether, 30 ether];  // randomly chosen, must fix
         chances = [2, 4, 8];        // randomly chosen, must fix, should be prime numbers
     }                              // chance is inversed percentage eg chance = 2 means 50%
     
@@ -109,7 +108,6 @@ contract PasswordGame {
     }
     
     /* bet getters */
-    function getBetInit(address addr) public view returns (bool) {return bets[addr].init;}
     function getBetIndex(address addr) public view returns (uint8) {return bets[addr].betIndex;}
     function getBetBlockNumber(address addr) public view returns (uint) {return bets[addr].blockNumber;}
     function getBetCodes(address addr) public view returns (uint8[9] memory) {
@@ -135,12 +133,12 @@ contract PasswordGame {
     */
     function createBet(uint8 betIndex, uint8[9] calldata codes) public payable {
         require(active, "Smart Contract must be active!");
-        require(msg.value >= betAmounts[betIndex] && !bets[msg.sender].init, "Please make sure you have sufficient funds and no active bets!");
+        require(betIndex >= 1 && betIndex <= 3, "Please choose a valid box number");
+        require(msg.value >= betAmounts[betIndex], "Please make sure you have sufficient funds");
         // require(address(this).balance >= winAmounts[betIndex], "There's not enough money in the contract in case you win!");
-        for (uint8 i = 0; i < 9; i++) require(codes[i] >= 1 && codes[i] <= 9);
-        require(betIndex < 3);
+        for (uint8 i = 0; i < 9; i++) require(codes[i] >= 1 && codes[i] <= 9, "Please use valid code digits");
 
-        bets[msg.sender] = Bet(true, block.number, betIndex, codes);
+        bets[msg.sender] = Bet(block.number, betIndex, codes);
         uint change = msg.value - betAmounts[betIndex];
         (bool success,) = msg.sender.call{value: change}(''); assert(success);
     }
@@ -156,7 +154,7 @@ contract PasswordGame {
     function cancelBet() public {
         require(active, "Smart Contract must be active!");
         Bet storage b = bets[msg.sender];
-        require(b.init, "You must have placed a bet to cancel it!");
+        require(b.betIndex != 0, "You must have placed a bet to cancel it!");
 
         uint betAmount = betAmounts[b.betIndex];
         uint betBlockNumber = b.blockNumber;
@@ -180,7 +178,7 @@ contract PasswordGame {
     function verifyBet() public returns (bool) {
         require(active, "Smart Contract must be active!");
         Bet storage b = bets[msg.sender];
-        require(b.init, "You must have placed a bet to verify it!");
+        require(b.betIndex != 0, "You must have placed a bet to verify it!");
         require(block.number > b.blockNumber); // or blockhash will fail because the block won't be mined yet
 
         uint blockNumber = b.blockNumber;
