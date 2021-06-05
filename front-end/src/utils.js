@@ -1,13 +1,9 @@
    
    /*
-    in html you FIRST include utils and AFTER that the index.js
+    <script src = 'web3.min.js'></script>
     <script type = "text/javascript" src="src/utils.js"></script>
-    <script type="text/javascript" src ="src/index.js"></script>
-
+    <script type="text/javascript" src ="src/gameplay.js"></script>
    */
-   
-   
-   
    
    /*
     @functionality:
@@ -16,7 +12,6 @@
     
     @requirements:
     The Metamask extension installed in the user's browser
-
     */
   const getWeb3 = () => {
     return new Promise((resolve, reject) => {
@@ -47,7 +42,7 @@
     web3 ????????? or not
     */
   const getContract = async (web3) => {
-    const data = await $.getJSON("path to PasswordGame.json");
+    const data = await $.getJSON("back-end/build/contracts/PasswordGame.json");
     const netId = await web3.eth.net.getId();                 
     const deployedNetwork = 5777;                               //Network code of the blockchain used to deloy the contract
     const contractAdderess = "0x5eBE53A1756ec98071807c33e58e62A6D0B99547";
