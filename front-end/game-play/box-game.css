@@ -131,7 +131,11 @@ body {
     opacity: 0.5;
 }
 
-/* .triplets svg.circle{
-    fill: white;
-    stroke:  transparent;
-} */
+footer {
+    text-align: center;
+    position: relative;
+    margin-top: 70px;
+    bottom:10px;
+    width:100%;
+    color: #f1f1f1;
+  }
