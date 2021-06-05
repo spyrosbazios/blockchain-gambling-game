@@ -21,16 +21,36 @@ contract PasswordGame {
     
     mapping (address => Bet) bets;
     
-    constructor() {
+    constructor() payable {
+        require(msg.value > 500 ether, "You need a least 500 ether to deploy the contract");
         active = true;
         owners.push(msg.sender);
-        betAmounts = [1 * 1 ether, 2 * 1 ether, 3 * 1 ether];     // randomly chosen, must fix
-        winAmounts = [10 * 1 ether, 20 * 1 ether, 30 * 1 ether];  // randomly chosen, must fix
+        betAmounts = [1 ether, 2 ether, 3 ether];     // randomly chosen, must fix
+        winAmounts = [10 ether, 20 ether, 30 ether];  // randomly chosen, must fix
         chances = [2, 4, 8];        // randomly chosen, must fix, should be prime numbers
-    }                               // chance is inversed percentage eg chance = 2 means 50%
+    }                              // chance is inversed percentage eg chance = 2 means 50%
     
+    receive() external payable {}
+    
+    /* contract getters */
     function getContractBalance() public view returns (uint256) {return address(this).balance;}
     function getChainBlockNumber() public view returns (uint256) {return block.number;}
+    /* contract getters */
+    
+    /*
+    @functionality:
+    Deactivates the contract permanently
+    
+    @requirements:
+    The contract must be active
+    The msg.sender must be an owner
+    */
+    function deactivate() public {
+        require(active, "Smart Contract must be active!");
+        require(isOwner(msg.sender), "Only an owner can deactivate the contract");
+        splitFunds(address(this).balance);
+        active = false;
+    }
     
     /*
     @functionality:
@@ -88,7 +108,7 @@ contract PasswordGame {
         }
     }
     
-    /* getters */
+    /* bet getters */
     function getBetInit(address addr) public view returns (bool) {return bets[addr].init;}
     function getBetIndex(address addr) public view returns (uint8) {return bets[addr].betIndex;}
     function getBetBlockNumber(address addr) public view returns (uint) {return bets[addr].blockNumber;}
@@ -96,7 +116,7 @@ contract PasswordGame {
         uint8[9] memory c = bets[addr].codes;
         return c;
     }
-    /* getters */
+    /* bet getters */
 
     /*
     @functionality:
@@ -127,16 +147,16 @@ contract PasswordGame {
 
     /*
     @functionality:
-    Withdraws a player's bet
+    Cancel a player's bet
     
     @requirements:
     The contract must be active
     The player must have an active bet
     */
-    function withdrawBet() public {
+    function cancelBet() public {
         require(active, "Smart Contract must be active!");
         Bet storage b = bets[msg.sender];
-        require(b.init, "You must have placed a bet to withdraw it!");
+        require(b.init, "You must have placed a bet to cancel it!");
 
         uint betAmount = betAmounts[b.betIndex];
         uint betBlockNumber = b.blockNumber;
@@ -204,21 +224,6 @@ contract PasswordGame {
             if (hashedCode % chance == 0) return true;
         }
         return false;
-    }
-    
-    /*
-    @functionality:
-    Deactivates the contract permanently
-    
-    @requirements:
-    The contract must be active
-    The msg.sender must be an owner
-    */
-    function deactivate() public {
-        require(active, "Smart Contract must be active!");
-        require(isOwner(msg.sender), "Only an owner can deactivate the contract");
-        splitFunds(address(this).balance);
-        active = false;
     }
 
 }
