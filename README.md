@@ -27,5 +27,5 @@ Reliable and fixed transaction time guaranteed by the Ethereum Network. **
 
 ## A taste from the game
 <p align="center">
-### <img src="/Users/macbook/Downloads/GkU-PdLeTjGd-j2CkNW0tQ/gameplay_imac2015retina_front.png" alt="gameplay_imac2015retina_front" style="zoom:30%;" />
+ <img src="UI/icons/gameplay-mockup-mac.png" alt="gameplay_imac2015retina_front" style="zoom:30%;" />
 </p>
