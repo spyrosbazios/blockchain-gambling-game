@@ -4,9 +4,7 @@
 
  The need for a fair gambling experience and our curiosity for the blockchain technology led us to the creation of Tyche.
 
-Tyche offers a wide variety of games through its web platform and accepts payments only in Ether due to the fact that it is built on
-
-Ethereum network, thus it inherits all of its features.
+Tyche offers a wide variety of games through its web platform and accepts payments only in Ether due to the fact that it is built on Ethereum network, thus it inherits all of its features.
 
 ## WE ARE DIFFERENT. 
 
