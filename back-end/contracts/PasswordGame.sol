@@ -32,7 +32,16 @@ contract PasswordGame {
     function getContractBalance() public view returns (uint256) {return address(this).balance;}
     function getChainBlockNumber() public view returns (uint256) {return block.number;}
     
-    /* checks if a given address is an owner */
+    /*
+    @functionality:
+    Checks if a given address is an owner 
+    
+    @requirements:
+    The contract must be active
+    
+    @params:
+    address addr: The address to check if it's an owner
+    */
     function isOwner(address addr) public view returns (bool) {
         require(active, "Smart Contract must be active!");
         for (uint i = 0; i < owners.length; i++) {
@@ -41,7 +50,16 @@ contract PasswordGame {
         return false;
     }
     
-    /* allows an owner to replace his address with another owner */
+    /*
+    @functionality:
+    Allows an owner to replace his address with another owner
+    
+    @requirements:
+    The contract must be active
+    
+    @params:
+    address newOwner: The address to replace the owner's address with
+    */
     function replaceOwner(address newOwner) public {
         require(active, "Smart Contract must be active!");
         //require(isOwner(msg.sender), "You must be already an owner to add new owners!"); omitted to save gas from double loops
@@ -50,7 +68,17 @@ contract PasswordGame {
         }
     }
 
-    /* splits an amount of funds from the contract's address among contract owners */
+    /*
+    @functionality:
+    Splits an amount of funds from the contract's address among contract owners
+    
+    @requirements:
+    The contract must be active
+    The msg.sender must be an owner
+    
+    @params:
+    uint amount: The amount of the contract's balance to split among owners
+    */
     function splitFunds(uint amount) public {
         require(active, "Smart Contract must be active!");
         require(isOwner(msg.sender));
@@ -70,7 +98,21 @@ contract PasswordGame {
     }
     /* getters */
 
-    /* creates a bet for a player */
+    /*
+    @functionality:
+    Creates a bet for a player
+    
+    @requirements:
+    The contract must be active
+    The msg.value must be greater than or equal to the cost of the chosen box
+    The player must have no active bets
+    All code digits must be between 1 and 9
+    The chosen box index must be less than 3
+    
+    @params:
+    uint8 betIndex: The index of the chosen box
+    uint8[9] codes: The codes chosen from the player
+    */
     function createBet(uint8 betIndex, uint8[9] calldata codes) public payable {
         require(active, "Smart Contract must be active!");
         require(msg.value >= betAmounts[betIndex] && !bets[msg.sender].init, "Please make sure you have sufficient funds and no active bets!");
@@ -83,7 +125,14 @@ contract PasswordGame {
         (bool success,) = msg.sender.call{value: change}(''); assert(success);
     }
 
-    /* withdraws a player's bet */
+    /*
+    @functionality:
+    Withdraws a player's bet
+    
+    @requirements:
+    The contract must be active
+    The player must have an active bet
+    */
     function withdrawBet() public {
         require(active, "Smart Contract must be active!");
         Bet storage b = bets[msg.sender];
@@ -99,7 +148,15 @@ contract PasswordGame {
         }
     }
 
-    /* checks if a bet has won */
+    /*
+    @functionality:
+    Checks if a player's bet has won 
+    
+    @requirements:
+    The contract must be active
+    The player must have an active bet
+    The current block number must be greater than the block number at the time of the bet's creation  
+    */
     function verifyBet() public returns (bool) {
         require(active, "Smart Contract must be active!");
         Bet storage b = bets[msg.sender];
@@ -127,7 +184,18 @@ contract PasswordGame {
         return verified;
     }
     
-    /* checks if any of a bet's codes has won */
+    /*
+    @functionality:
+    Checks if a bet's codes have won
+    
+    @requirements:
+    The contract must be active
+    
+    @params:
+    uint blockNumber: The block number at the time of the bet's creation
+    uint8[9] codes: The codes included in the bet 
+    uint8 chance: The chance to win of the bet's box
+    */
     function verifyCodes(uint blockNumber, uint8[9] memory codes, uint8 chance) private view returns (bool) {
         require(active, "Smart Contract must be active!");
         for (uint i = 0; i < 9; i += 3) {
@@ -138,7 +206,16 @@ contract PasswordGame {
         return false;
     }
     
+    /*
+    @functionality:
+    Deactivates the contract permanently
+    
+    @requirements:
+    The contract must be active
+    The msg.sender must be an owner
+    */
     function deactivate() public {
+        require(active, "Smart Contract must be active!");
         require(isOwner(msg.sender), "Only an owner can deactivate the contract");
         splitFunds(address(this).balance);
         active = false;
