@@ -29,9 +29,8 @@ contract PasswordGame {
         chances = [2, 4, 8];        // randomly chosen, must fix, should be prime numbers
     }                               // chance is inversed percentage eg chance = 2 means 50%
     
-    function getContractBalance() public view returns (uint256) {
-        return address(this).balance;
-    }
+    function getContractBalance() public view returns (uint256) {return address(this).balance;}
+    function getChainBlockNumber() public view returns (uint256) {return block.number;}
     
     /* checks if a given address is an owner */
     function isOwner(address addr) public view returns (bool) {
