@@ -124,7 +124,7 @@ function getBtnId(btnId){
         break;
     }
   }
-  else if(btnId.charAt(0) == "2" && (pin2.length < 4)){
+  else if(btnId.charAt(0) == "2" && (pin2.length < 4) && (pin1.length == 4)){
     console.log(pin2.length)
     switch (btnId){
       case "21": 
@@ -157,7 +157,7 @@ function getBtnId(btnId){
         break;
     }
   }
-  else if(btnId.charAt(0) == "3" && (pin3.length < 4)){
+  else if(btnId.charAt(0) == "3" && (pin3.length < 4)  && (pin2.length == 4)){
     switch (btnId){
       case "31": 
         pin3+= "1";
