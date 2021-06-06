@@ -15,6 +15,14 @@ img{
     margin-top: 16rem;    
 }
 
+#logo{
+    width: 90px;
+    height: 120px;
+    position:absolute; 
+    left:-1rem; 
+    top: -15rem;
+}
+
 a:link, a:hover{
     text-decoration: none;
 }
@@ -44,8 +52,16 @@ a:link, a:hover{
     content: 'BUY';
   }
 
-.buy:hover:before {
-    content: '3 ETH';
+  #blueBoxPrice:hover:before {
+    content: '0.01 ETH';
+  }
+
+#yellowBoxPrice:hover:before {
+    content: '0.068 ETH';
+  }
+
+  #purpleBoxPrice:hover:before {
+    content: '0.027 ETH';
   }
 
 
