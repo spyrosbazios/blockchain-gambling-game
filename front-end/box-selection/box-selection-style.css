@@ -6,16 +6,17 @@ body{
     display: flex;
     flex-direction: row; 
     flex-wrap: wrap;
-    /* justify-content: space-around; */
-    height:100%;
     justify-content: center;
-
 }
 
 img{
     width: 300px;
     height: 300px;
     margin-top: 16rem;    
+}
+
+a:link, a:hover{
+    text-decoration: none;
 }
 
 .box-container{
@@ -54,14 +55,5 @@ img{
     font-size: large;
     margin-top: -1rem;
 }
-
-footer {
-    text-align: center;
-    position: relative;
-    margin-top: 70px;
-    bottom:10px;
-    width:100%;
-    color: #f1f1f1;
-  }
 
 

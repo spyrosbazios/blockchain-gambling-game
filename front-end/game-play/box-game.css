@@ -1,30 +1,26 @@
-html, body {
-    min-height: 100vh;
-}
-
 body {
     background-color: rgba(0,0,0,1);
 }
 
 .container {
-  grid-area: pin-code;
   display: flex;
   flex-direction: column;
   margin: auto;
-  height: 100vh;
+  height: 100%;
 
 }
 
 #box-container{
     width: 600px;
-    height: 800px;
+    height: 675px;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 25px;
     margin-left: -1.5rem;
+    margin-top: 1.5rem;
 }
 
 #forge-keys-container{
-    width: 660px;
+    width: 758px;
     height: 360px;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 25px;
@@ -33,12 +29,8 @@ body {
 
 .main-container {
     display: grid;
-    width: 100%;
     height: 100%;
     grid-template-columns: 1fr 1fr;
-    grid-template-areas: 
-        "pin-code swiper-area"
-        "footer footer";
     text-align: center;
   }
 
@@ -47,43 +39,18 @@ body {
     flex-direction: row;
 }
 .swiper {
-    grid-area: swiper-area;
     text-align: center;
-    height: 100vh;
     position: absolute;
-    top: 75%;
+    top: 30%;
     left: 75%; 
     transform: translate(-50%, -50%);
-    /* width: 400px; */
 }
 .swiper .swipe-btn {
     cursor: pointer;
-    margin-top: 6rem;
-    margin-left: -25.5rem;
+    margin-left: 1.8rem;
 }
 
-/* .swiper .swipe-btn .circle {
-    fill: #ed7000;
-    margin-top: 4rem;
-
-}
-.swiper .swipe-btn .arrow {
-    stroke: #ed7000;
-    stroke-width: 1px;
-    stroke-linecap: butt;
-    stroke-linejoin: miter;
-    fill: #f4ece1;
-    margin-top: 4rem;
-
-} */
-/* .swiper .swipe-end {
-    /* margin-top: -23%;
-    margin-left: 50%;  
-    transform: translate(25%, 54%);
-    margin-top: 4rem;
-
-} */
-.swiper .dotted-line circle {
+.dotted-line circle {
     fill: wheat;
     margin-top: 4rem;
 }
@@ -104,7 +71,7 @@ body {
 #lock,#lock2, #lock3 {
     width: 100%;
     height: 100%;
-    padding-bottom: 12vh;
+    padding-bottom: 50px;
     min-height: 100px;
 }
 .triplets {
@@ -122,20 +89,40 @@ body {
     margin-right: 6.7rem;
 }
 
-.pin-box img{
-    margin-top: 5rem;
-
-}
-
-#pin-box2, #pin-box3{
+#pin-box2, #pin-box3, #forge-keys-container{
     opacity: 0.5;
 }
 
-footer {
-    text-align: center;
-    position: relative;
-    margin-top: 70px;
-    bottom:10px;
-    width:100%;
-    color: #f1f1f1;
-  }
+#swipe-end{
+    transform: translate(6%, 23%);
+    height: 290px;
+    width: 290px;
+}
+
+#cross1, #cross2, #cross3{
+    width: 12px; 
+    height: 12px;
+    margin-right: 2rem;
+    margin-left:2rem;
+} 
+
+#polygon1, #polygon2, #polygon3{
+    width: 40px;
+    height: 28px;
+    margin-right: 2rem;
+}
+
+#key1, #key2, #key3{
+    width: 180px; 
+    height: 100px;
+    margin-left: -0.2rem; 
+}
+
+#code1, #code2, #code3{
+    color: white;
+    white-space: nowrap;
+    transform: translate(310%, 570%);
+    margin-left: -5rem;
+    position: absolute;
+}
+  
