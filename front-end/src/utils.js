@@ -46,7 +46,7 @@
     const data = await $.getJSON("../../back-end/build/contracts/PasswordGame.json");
     const netId = await web3.eth.net.getId();                 
     const deployedNetwork = 5777;                               //Network code of the blockchain used to deloy the contract
-    const contractAdderess = "0x5eBE53A1756ec98071807c33e58e62A6D0B99547";
+    const contractAdderess = "0xFDfFA6996e2B444E8e6eaB85A09b43ca1b4b2580";
     const passwordGame_contract = new web3.eth.Contract(
         data.abi, 
         contractAdderess 

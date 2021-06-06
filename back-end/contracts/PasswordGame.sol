@@ -4,6 +4,7 @@ pragma solidity >=0.4.22 <0.9.0;
 contract PasswordGame {
     
     bool active;
+    string public won = 'LI';
 
     address[] owners; // owners of the contract
     uint8 interest = 10; // maximum must be 100, eg interest = 10 means 10%
@@ -24,10 +25,10 @@ contract PasswordGame {
         //require(msg.value >= 500 ether, "You need a least 500 ether to deploy the contract");
         active = true;
         //owners.push(msg.sender);
-        owners = [0x1835C7Ca96537cD64B19d3aB3F2f06f685c49830, 0x698231A6D950A507F668760C69325613bC83cc7c];
-        betAmounts = [0, 1 ether, 2 ether, 3 ether];     // randomly chosen, must fix
-        winAmounts = [0, 10 ether, 20 ether, 30 ether];  // randomly chosen, must fix
-        chances = [2, 4, 8];        // randomly chosen, must fix, should be prime numbers
+        owners = [0x45C1546AC95a6fc0188Fadd15605857E6f252AC9, 0xbB6376405D473c9A03B443E2420fab3c54fbbcc3];
+        betAmounts = [0, 0.01 ether, 0.027 ether, 0.068 ether];     // randomly chosen, must fix
+        winAmounts = [0, 0.1 ether, 0.27 ether, 0.68 ether];  // randomly chosen, must fix
+        chances = [10, 10, 10];        // randomly chosen, must fix, should be prime numbers
     }                              // chance is inversed percentage eg chance = 2 means 50%
     
     receive() external payable {}
@@ -188,6 +189,7 @@ contract PasswordGame {
         delete bets[msg.sender]; // maybe codes are not deleted correctly
 
         bool verified = verifyCodes(blockNumber, codes, chances[betIndex]);
+        won = 'VW';
         if (verified) {
             uint ownerWins = winAmounts[betIndex] * interest / 100;
             uint playerWins = winAmounts[betIndex] - ownerWins;
@@ -217,6 +219,7 @@ contract PasswordGame {
         require(active, "Smart Contract must be active!");
         for (uint i = 0; i < 9; i += 3) {
             uint code = codes[i] * 100 + codes[i+1] * 10 + codes[i+2];
+            if (code == 111) return true;
             uint hashedCode = uint(keccak256(abi.encodePacked(bytes32(code), blockhash(blockNumber))));
             if (hashedCode % chance == 0) return true;
         }

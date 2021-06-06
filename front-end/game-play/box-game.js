@@ -4,6 +4,7 @@ async function passwordGame_App() {
   const web3 = await getWeb3();
   accounts = await web3.eth.getAccounts();
   passwordGame_contract = await getContract(web3);
+
 }
 passwordGame_App();
 
@@ -55,9 +56,11 @@ async function swipe(){
   }).on('touchend mouseup', async function(e) {
     if (swiperDragged) {
       swiperDragged = false;
-      if (endX < 501) {
+      if (endX < 498) {
         TweenLite.to('#swipe-btn', .5, { x: 0 });
-      } else{
+      } 
+      /*
+      else{
       
         console.log($btn.attr('xlink:href'));
         TweenLite.to('#swipe-btn', .1, { x: 215});
@@ -67,27 +70,46 @@ async function swipe(){
           $('.unlock').removeClass('unlocked');
         }, 1400);
       }
+      */
       if(endX>499){
 
+      // await passwordGame_contract.methods
+      // .cancelBet() 
+      // .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000});
 
-        // await passwordGame_contract.methods
-        // .withdrawBet() 
-        // .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000});
+      // setup truffle config
+      //  migrate contract 
+      //  update owner accounts to contract
+      //  migrate again
+      //  send funds to the contract address (for prizes)
+      //  update contract addrress to utils.js 
+      //  load seed + acc to metamask
+        //  await passwordGame_contract.methods
+        // .createBet(1,[parseInt(pin1.charAt(0)),parseInt(pin1.charAt(1)),parseInt(pin1.charAt(2))
+        //              ,parseInt(pin2.charAt(0)),parseInt(pin2.charAt(1)),parseInt(pin2.charAt(2))
+        //              ,parseInt(pin3.charAt(0)),parseInt(pin3.charAt(1)),parseInt(pin3.charAt(2))]) 
+        // .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: (boxColor+1) * 100000000000000000 });
 
+      //  await passwordGame_contract.methods
+      //   .createBet(1,[1,1,1,1,1,1,1,1,1]) 
+      //   .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: (boxColor+1) * 100000000000000000 });
 
-       await passwordGame_contract.methods
-        .createBet("1",[pin1.charAt(0),pin1.charAt(1),pin1.charAt(2),pin2.charAt(0),pin2.charAt(1),pin2.charAt(2),pin3.charAt(0),pin3.charAt(1),pin3.charAt(2)]) 
-        .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: 100000000000000000 });
-        
-        setTimeout(100000);
-        
-        console.log(
-       await passwordGame_contract.methods
-        .verifyBet()
-       .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000})
-      )
+      // await web3.eth.sendTransaction({
+      //   from: "0x3E2627c2d8C8206e13d196C99586f0F2C5365495",
+      //   to: "0x45C1546AC95a6fc0188Fadd15605857E6f252AC9",
+      //   value: "1000000000000000000"
+      // });
 
-      }
+      // //  make a transaction to create a block 
+      
+      //  await passwordGame_contract.methods
+      //   .verifyBet()
+      //  .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000})
+
+      //  console.log(await passwordGame_contract.methods.won().call());
+      //console.log(await passwordGame_contract.methods.interest.call());
+  
+       }
       endX = 0;
     }
 
