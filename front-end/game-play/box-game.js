@@ -1,71 +1,96 @@
+var boxColor = localStorage.getItem('boxColor');
+console.log(boxColor);
+if(boxColor == 0){
+  document.getElementById("swipe-end").src = "../assets/box-blue.png";
+}
+else if(boxColor == 2){
+  document.getElementById("swipe-end").src = "../assets/box-purple.png";
+}
+else{
+  document.getElementById("swipe-end").src = "../assets/box-yellow.png";
+}
+
 /* 
  * 
  * SLIDE TO UNCLOCK FUNCTIONALITY 
  * 
  */
-
 var swiperDragged = false,
-startX,
-endX = 0;
+    startX,
+    endX = 0;
 
 function swipe(){
-var $swipe = $('.swiper'),
-  $btn = $('.swipe-btn', $swipe);
+  var $swipe = $('.swiper'),
+      $btn = $('.swipe-btn', $swipe);
 
-TweenLite.to('#swipe-arrow', 0, { x: 16, y: 11});
-TweenLite.to('#swipe-end', 0, { x: 235, y: 12});
+  TweenLite.to('#swipe-end', 0, { x: 15, y: 65});
+  
+  var tl = new TimelineMax({repeat: -1, repeatDelay: 0.0});
+  tl.staggerFrom(".dotted-line circle", 0.7, { scale: 0.7, x: -2, y: .5, opacity: 0.7, delay:0.1, ease: Power2.easeInOut, repeat: 1, yoyo: true}, 0.15);
 
-var tl = new TimelineMax({ repeat: -1 });
-tl.staggerFrom("#dotted-line circle", 0.7, { scale: 0.7, x: -2, y: .5, opacity: 0.7, delay:0.1, ease: Power2.easeInOut, repeat: 1, yoyo: true}, 0.15);
+  $btn.on('click touchend', function(e){
+    e.preventDefault();
+  }).on('touchstart mousedown', function(e) {
+    e.preventDefault();
+    swiperDragged = true;
+    startX = typeof e.pageX != 'undefined' ? e.pageX : e.originalEvent.touches[0].pageX;
+    endX = 0;
+  })
 
-$btn.on('click touchend', function(e){
-e.preventDefault();
-}).on('touchstart mousedown', function(e) {
-e.preventDefault();
-swiperDragged = true;
-startX = typeof e.pageX != 'undefined' ? e.pageX : e.originalEvent.touches[0].pageX;
-endX = 0;
-})
-
-$(document).on('touchmove mousemove', function(e){
-if (swiperDragged) {
-  actualX = typeof e.pageX != 'undefined' ? e.pageX : e.originalEvent.touches[0].pageX;
-  endX = Math.max(0, Math.min(215, actualX - startX));
-  TweenLite.to('#swipe-btn', 0, { x: endX});
+  $(document).on('touchmove mousemove', function(e){
+    if (swiperDragged) {
+      actualX = typeof e.pageX != 'undefined' ? e.pageX : e.originalEvent.touches[0].pageX;
+      endX = Math.max(0, Math.min(500, actualX - startX));
+      TweenLite.to('#swipe-btn', 0, { x: endX});
+    }
+  }).on('touchend mouseup', function(e) {
+    if (swiperDragged) {
+      swiperDragged = false;
+      if (endX < 501) {
+        TweenLite.to('#swipe-btn', .5, { x: 0 });
+      } else {
+        console.log($btn.attr('xlink:href'));
+        TweenLite.to('#swipe-btn', .1, { x: 215});
+        $('.unlock').addClass('unlocked');
+        setTimeout(function(){
+          TweenLite.to('#swipe-btn', .5, { x: 0 });
+          $('.unlock').removeClass('unlocked');
+        }, 1400);
+      }
+      endX = 0;
+    }
+  });
 }
-}).on('touchend mouseup', function(e) {
-if (swiperDragged) {
-  swiperDragged = false;
-  if (endX < 200) {
-    TweenLite.to('#swipe-btn', .5, { x: 0 });
-  } else {
-    console.log($btn.attr('xlink:href'));
-    TweenLite.to('#swipe-btn', .1, { x: 215});
-    $('.unlock').addClass('unlocked');
-    setTimeout(function(){
-      TweenLite.to('#swipe-btn', .5, { x: 0 });
-      $('.unlock').removeClass('unlocked');
-    }, 1400);
-  }
-  endX = 0;
-}
-});
-}
-
-swipe();
 
 /* GETTING PIN */
 
 var pin1 = "";
 var pin2 = "";
 var pin3 = "";
+
+/* Changes keyboards opacity when previous pin is set */
+setInterval(function(){
+  if(pin1.length > 2) {
+  document.getElementById("pin-box2").style.opacity = "1";}
+  else if (pin1.length <=2){document.getElementById("pin-box2").style.opacity = "0.5";}
+
+  if(pin2.length == 4) {
+  document.getElementById("pin-box3").style.opacity = "1";} 
+  else {document.getElementById("pin-box3").style.opacity = "0.5"; }
+
+  if(pin3.length == 4) {
+    document.getElementById("forge-keys-container").style.opacity = "1";
+    swipe();
+    }
+    else document.getElementById("pin-box2").style.opacity = "0.5";}, 200);
+
 function getBtnId(btnId){
 
   if(btnId.charAt(0) == "1" && (pin1.length < 4)){
     switch (btnId){
       case "11":
         pin1+= "1";
-        console.log(pin1);
+        document.getElementById("code1").innerHTML += "1";
         break;
       case "12": 
         pin1 += "2";
@@ -73,6 +98,7 @@ function getBtnId(btnId){
         break;
       case "13": 
         pin1+= "3";
+        console.log(pin1);
         break;
       case "14":
         pin1+= "4";
@@ -80,25 +106,33 @@ function getBtnId(btnId){
         break;
       case "15": 
         pin1+= "5";
+        console.log(pin1);
         break;
       case "16": 
         pin1+= "6";
+        console.log(pin1);
+        console.log(pin1.length);
         break;
       case "17": 
         pin1+= "7";
+        console.log(pin1);
         break;
       case "18": 
         pin1+= "8";
+        console.log(pin1);
         break;
       case "19": 
         pin1+= "9";
+        console.log(pin1);
         break;
     }
   }
   else if(btnId.charAt(0) == "2" && (pin2.length < 4)){
+    console.log(pin2.length)
     switch (btnId){
       case "21": 
         pin2+= "1";
+        console.log(pin1);
         break;
       case "22": 
         pin2+= "2";
@@ -158,4 +192,28 @@ function getBtnId(btnId){
     }
 
   }
+}
+
+function cancel(codeId){
+  switch (codeId){
+    case "code1":
+      pin1="";
+      console.log(pin1.length);
+      document.getElementById("code1").innerHTML += "PIN";
+      break;
+    case "code2":
+      pin2="";
+      document.getElementById("pin-box3").style.opacity = "0.5";
+      break;
+    case "code3":
+      pin3="";
+      document.getElementById("forge-keys-container").style.opacity = "0.5";
+      break;
+    default: 
+      pin1="";
+      pin2="";
+      pin3="";
+      break;
+  }
+
 }
