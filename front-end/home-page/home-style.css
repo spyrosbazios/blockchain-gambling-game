@@ -87,6 +87,7 @@ body {
   background-position: absolute;
   background-size: 380px 550px;
   border: none;
+  border-radius: 0%;
   margin-top: -60px;
 }
 

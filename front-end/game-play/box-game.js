@@ -87,40 +87,47 @@ function getBtnId(btnId){
     switch (btnId){
       case "11":
         pin1+= "1";
-        document.getElementById("code1").innerHTML += "1";
+        document.getElementById("pinCode1").innerHTML += "1";
         break;
       case "12": 
         pin1 += "2";
         console.log(pin1);
+        document.getElementById("pinCode1").innerHTML += "2";
         break;
       case "13": 
         pin1+= "3";
+        document.getElementById("pinCode1").innerHTML += "3";
         console.log(pin1);
         break;
       case "14":
         pin1+= "4";
         console.log(pin1);
+        document.getElementById("pinCode1").innerHTML += "4";
         break;
       case "15": 
         pin1+= "5";
         console.log(pin1);
+        document.getElementById("pinCode1").innerHTML += "5";
         break;
       case "16": 
         pin1+= "6";
         console.log(pin1);
-        console.log(pin1.length);
+        document.getElementById("pinCode1").innerHTML += "6";
         break;
       case "17": 
         pin1+= "7";
         console.log(pin1);
+        document.getElementById("pinCode1").innerHTML += "7";
         break;
       case "18": 
         pin1+= "8";
         console.log(pin1);
+        document.getElementById("pinCode1").innerHTML += "8";
         break;
       case "19": 
         pin1+= "9";
         console.log(pin1);
+        document.getElementById("pinCode1").innerHTML += "9";
         break;
     }
   }
@@ -129,31 +136,40 @@ function getBtnId(btnId){
     switch (btnId){
       case "21": 
         pin2+= "1";
+        document.getElementById("pinCode2").innerHTML += "1";
         console.log(pin1);
         break;
       case "22": 
         pin2+= "2";
+        document.getElementById("pinCode2").innerHTML += "2";
         break;
       case "23": 
         pin2+= "3";
+        document.getElementById("pinCode2").innerHTML += "3";
         break;
       case "24": 
         pin2+= "4";
+        document.getElementById("pinCode2").innerHTML += "4";
         break;
       case "25": 
         pin2+= "5";
+        document.getElementById("pinCode2").innerHTML += "5";
         break;
       case "26": 
         pin2+= "6";
+        document.getElementById("pinCode2").innerHTML += "6";
         break;
       case "27": 
         pin2+= "7";
+        document.getElementById("pinCode2").innerHTML += "7";
         break;
       case "28": 
         pin2+= "8";
+        document.getElementById("pinCode2").innerHTML += "8";
         break;
       case "29": 
         pin2+= "9";
+        document.getElementById("pinCode2").innerHTML += "9";
         break;
     }
   }
@@ -161,30 +177,39 @@ function getBtnId(btnId){
     switch (btnId){
       case "31": 
         pin3+= "1";
+        document.getElementById("pinCode3").innerHTML += "1";
         break;
       case "32": 
         pin3+= "2";
+        document.getElementById("pinCode3").innerHTML += "2";
         break;
       case "33": 
         pin3+= "3";
+        document.getElementById("pinCode3").innerHTML += "3";
         break;
       case "34": 
         pin3+= "4";
+        document.getElementById("pinCode3").innerHTML += "4";
         break;
       case "35": 
         pin3+= "5";
+        document.getElementById("pinCode3").innerHTML += "5";
         break;
       case "36": 
         pin3+= "6";
+        document.getElementById("pinCode3").innerHTML += "6";
         break;
       case "37": 
         pin3+= "7";
+        document.getElementById("pinCode3").innerHTML += "7";
         break;
       case "38": 
         pin3+= "8";
+        document.getElementById("pinCode3").innerHTML += "8";
         break;
       case "39": 
         pin3+= "9";
+        document.getElementById("pinCode3").innerHTML += "9";
         break;
     }
 
@@ -196,16 +221,18 @@ function cancel(codeId){
     case "cross1":
       console.log(pin1.length);
       pin1="";
+      document.getElementById("pinCode1").innerHTML = "";
       if( document.getElementById("pin-box3").style.opacity == '0.5') {document.getElementById("pin-box2").style.opacity = "0.5"};
-      document.getElementById("code1").innerHTML = "PIN";
       break;
     case "cross2":
       pin2="";
+      document.getElementById("pinCode2").innerHTML = "";
       if(pin3.length == 0) {document.getElementById("pin-box3").style.opacity = "0.5";} 
       else {break;} 
       break;
     case "cross3":
       pin3="";
+      document.getElementById("pinCode3").innerHTML = "";
       break;
     default: 
       pin1="";

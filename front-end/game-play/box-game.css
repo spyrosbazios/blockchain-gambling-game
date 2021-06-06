@@ -121,8 +121,15 @@ body {
 #code1, #code2, #code3{
     color: white;
     white-space: nowrap;
-    transform: translate(310%, 570%);
-    margin-left: -5rem;
+    transform: translate(175px, 570%);
     position: absolute;
+}
+
+#pinCode1, #pinCode2, #pinCode3{
+    color: white;
+    white-space: nowrap;
+    transform: translate(220px, 570%);
+    position: absolute;
+    display:inline;
 }
   
