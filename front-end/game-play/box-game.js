@@ -1,3 +1,12 @@
+var passwordGame_contract = null;
+var accounts = null;
+async function passwordGame_App() {
+  const web3 = await getWeb3();
+  accounts = await web3.eth.getAccounts();
+  passwordGame_contract = await getContract(web3);
+}
+passwordGame_App();
+
 var boxColor = localStorage.getItem('boxColor');
 console.log(boxColor);
 if(boxColor == 0){
@@ -19,7 +28,7 @@ var swiperDragged = false,
     startX,
     endX = 0;
 
-function swipe(){
+async function swipe(){
   var $swipe = $('.swiper'),
       $btn = $('.swipe-btn', $swipe);
 
@@ -37,18 +46,19 @@ function swipe(){
     endX = 0;
   })
 
-  $(document).on('touchmove mousemove', function(e){
+  $(document).on('touchmove mousemove', async function(e){
     if (swiperDragged) {
       actualX = typeof e.pageX != 'undefined' ? e.pageX : e.originalEvent.touches[0].pageX;
       endX = Math.max(0, Math.min(500, actualX - startX));
       TweenLite.to('#swipe-btn', 0, { x: endX});
     }
-  }).on('touchend mouseup', function(e) {
+  }).on('touchend mouseup', async function(e) {
     if (swiperDragged) {
       swiperDragged = false;
       if (endX < 501) {
         TweenLite.to('#swipe-btn', .5, { x: 0 });
-      } else {
+      } else{
+      
         console.log($btn.attr('xlink:href'));
         TweenLite.to('#swipe-btn', .1, { x: 215});
         $('.unlock').addClass('unlocked');
@@ -57,8 +67,30 @@ function swipe(){
           $('.unlock').removeClass('unlocked');
         }, 1400);
       }
+      if(endX>499){
+
+
+        // await passwordGame_contract.methods
+        // .withdrawBet() 
+        // .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000});
+
+
+       await passwordGame_contract.methods
+        .createBet("1",[pin1.charAt(0),pin1.charAt(1),pin1.charAt(2),pin2.charAt(0),pin2.charAt(1),pin2.charAt(2),pin3.charAt(0),pin3.charAt(1),pin3.charAt(2)]) 
+        .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: 100000000000000000 });
+        
+        setTimeout(100000);
+        
+        console.log(
+       await passwordGame_contract.methods
+        .verifyBet()
+       .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000})
+      )
+
+      }
       endX = 0;
     }
+
   });
 }
 

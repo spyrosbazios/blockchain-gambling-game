@@ -19,3 +19,4 @@ await passwordGame_contract.methods
   .verifyBet()
   .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000});
 */
+
