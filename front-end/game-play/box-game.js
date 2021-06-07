@@ -12,12 +12,19 @@ var boxColor = localStorage.getItem('boxColor');
 console.log(boxColor);
 if(boxColor == 0){
   document.getElementById("swipe-end").src = "../assets/box-blue.png";
+  document.getElementById("bet").innerHTML = "0.01 ETH";
+  document.getElementById("prize").innerHTML = "0.1 ETH";
+
 }
 else if(boxColor == 2){
   document.getElementById("swipe-end").src = "../assets/box-purple.png";
+  document.getElementById("bet").innerHTML = "0.027 ETH";
+  document.getElementById("prize").innerHTML = "0.27 ETH";
 }
 else{
   document.getElementById("swipe-end").src = "../assets/box-yellow.png";
+  document.getElementById("bet").innerHTML = "0.068 ETH";
+  document.getElementById("prize").innerHTML = "0.68 ETH";
 }
 
 /* 
@@ -133,7 +140,8 @@ setInterval(function(){
   if((pin1.length == 4) && (pin2.length == 4) && (pin3.length == 4)) {
     document.getElementById("forge-keys-container").style.opacity = "1";
     swipe();}
-  else document.getElementById("forge-keys-container").style.opacity = "0.5";}, 200);
+  else document.getElementById("forge-keys-container").style.opacity = "0.5";
+       }, 200);
 
 function getBtnId(btnId){
 
