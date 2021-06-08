@@ -1,9 +1,3 @@
-body {
-  background-color: black;
-}
-
-
-
 .content-table{
   background-image: url(../assets/home.png);
   background-position: center;
@@ -57,17 +51,6 @@ body {
   background-size: 450px 600px;
  
 }
-
-/* #rouletteGame:hover{
-  background-image: url("../assets/roulette.png");
-  background-repeat: no-repeat;
-  background-size: 450px 600px;
-}
-
-#rouletteGame::before{
-  background-image: url("../assets/roulette.png");
-} */
-
 /*
  *
  * Box Game - Button Design
@@ -105,16 +88,6 @@ body {
   background-repeat: no-repeat;
   background-size: 450px 600px;
 }
-
-/* #slotGame:hover{
-  background-image: url("assets/box-info.png");
-  background-size:cover;
-
-}
-
-#slotGame::before{
-  background-image: url("assets/slot.png");
-} */
 
 /*
  *

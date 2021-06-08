@@ -3,25 +3,32 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="author" content="Chara Gergi">
+    <meta name="author" content="Chara Gergi, Christos Argyropoulos, Spyros Bazios">
 	<meta name="viewport" content="width=device-width, initial-scale=2.0">
+    <link rel="stylesheet" type="text/css" href="../main-css/main-style.css">
     <link rel="stylesheet" type="text/css" href="box-game.css">
-    <link rel="stylesheet" type="text/css" href="../responsive.css">
+    <link rel="stylesheet" type="text/css" href="../main-css/responsive.css">
     <title> Box Game </title>
+        <style>
+        @media only screen and (max-width: 800px) {
+
+            html{
+            overflow-x: hidden;} 
+        </style>
 
 </head>
 
-<body>
+<body id="box-game-body">
     <div class="main-container">
         <div class="container"> 
 
-        <img src="gameplay-assets/logo_rotated.png" width="90px" height="140px" style="position:absolute; left:0px; top: 2rem;"> </img>
+        <img src="gameplay-assets/logo_rotated.png" width="90" height="140" style="position:absolute; left:0px; top: 2rem;" id="logo" alt="Tyche Logo"/> 
         <div id="box-container">    
             <p style="color: white; font-size: 1.5rem"> Forge your keys through the PIN codes </p>
 
             <div class= "pin-box" id="pin-box1">   
 
-            <img src="gameplay-assets/cross.png" id="cross1" style="margin-top: 5rem;" onClick="cancel(this.id)">         
+            <img src="gameplay-assets/cross.png" id="cross1" style="margin-top: 5rem;" onClick="cancel(this.id)" alt="Cross Image">         
             <div class="patternlock" id="lock" >
 
                 <p> </p>
@@ -46,15 +53,15 @@
                     </div>
                 </div>
                 
-                <img src="gameplay-assets/polygon.png" id="polygon1" style="margin-top: 4.55rem;">
-                <img src="gameplay-assets/key.png" id="key1" style="margin-top: 2.5rem;">
+                <img src="gameplay-assets/polygon.png" id="polygon1" style="margin-top: 4.55rem;"  alt="Polygon Image"/>
+                <img src="gameplay-assets/key.png" id="key1" style="margin-top: 2.5rem;" alt="Key Image"/>
                 <p id="code1"> PIN  </p>
                 <p id="pinCode1">  </p>
             </div>
 
             <div class= "pin-box" id="pin-box2">
 
-                <img src="gameplay-assets/cross.png" id="cross2" style="margin-top: 2.1rem;" onClick="cancel(this.id)">
+                <img src="gameplay-assets/cross.png" id="cross2" style="margin-top: 2.1rem;" onClick="cancel(this.id)" alt="Cross Image">
                 <div class="patternlock" id="lock2" >
                     <div class="triplets">
                         <button id= "21" onClick="getBtnId(this.id)"> 1 </button>
@@ -75,15 +82,15 @@
                     </div>
                 </div>
 
-                <img src="gameplay-assets/polygon.png" id="polygon2" style="margin-top: 1.55rem;">
-                <img src="gameplay-assets/key.png" id="key2" style="margin-top: -0.5rem;">
+                <img src="gameplay-assets/polygon.png" id="polygon2" style="margin-top: 1.55rem;" alt="Polygon Image">
+                <img src="gameplay-assets/key.png" id="key2" style="margin-top: -0.5rem;" alt="Key Image">
                 <p id="code2" style="margin-top: -1.6rem"> PIN </p>
                 <p id="pinCode2" style="margin-top: -1.6rem">  </p>
             </div>
 
             <div class= "pin-box" id="pin-box3">
 
-            <img src="gameplay-assets/cross.png" id="cross3" style="margin-top: 2.1rem;" onClick="cancel(this.id)">   
+            <img src="gameplay-assets/cross.png" id="cross3" style="margin-top: 2.1rem;" onClick="cancel(this.id)" alt="Cross Image">   
                 <div class="patternlock" id="lock3" >
                     <div class="triplets">
                         <button id= "31" onClick="getBtnId(this.id)"> 1 </button>
@@ -103,8 +110,8 @@
                         <button id= "39" onClick="getBtnId(this.id)"> 9 </button>
                     </div>
                 </div>
-                <img src="gameplay-assets/polygon.png" id="polygon3" style="margin-top: 1.55rem;">
-                <img src="gameplay-assets/key.png" id="key3" style="margin-top: -0.5rem;">
+                <img src="gameplay-assets/polygon.png" id="polygon3" style="margin-top: 1.55rem;" alt="Polygon Image">
+                <img src="gameplay-assets/key.png" id="key3" style="margin-top: -0.5rem;" alt="Key Image">
                 <p id="code3" style="margin-top: -1.6rem"> PIN </p>
                 <p id="pinCode3" style="margin-top: -1.6rem">  </p>
             </div>
@@ -114,9 +121,9 @@
 
         <div class="swiper">
             <div id="forge-keys-container">
-            <p style="color: white; font-size: 1.5rem; margin: 2rem 12rem; position: absolute;"> Slide the keys to the lock </p>
-                <img src="gameplay-assets/keychain.png" id="swipe-btn" class="swipe-btn" height="190" width="190">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="230" height="100" style="transform: translate(6%, -14%);">
+            <p> Slide the keys to the lock </p>
+                <img src="gameplay-assets/keychain.png" id="swipe-btn" class="swipe-btn" height="190" width="190" alt="Keychain Image">
+                <svg id="svg-rot" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="230" height="100">
                     <g id="dotted-line" class="dotted-line">
                         <circle cx="40" cy="22" r="3"></circle>
                         <circle cx="60" cy="22" r="3"></circle>
@@ -131,14 +138,18 @@
                     </g>
                 </svg>
 
-                <img src="gameplay-assets/box-lock.png" height="210" width="235"  id="swipe-end" class="swipe-end"/>
+                <img src="gameplay-assets/box-lock.png" height="210" width="235"  id="swipe-end" class="swipe-end" alt="Chosen Box Image"/>
             </div>
-            <p style="color: gray; transform: translate(-70px, 280px); font-size: 1.2rem; "> Bet: </p>
-            <p id="bet"  style="transform: translate(10px, 239px);"> </p>
-            <p style="color: gray; transform: translate(-70px, 235px); font-size: 1.2rem;"> Prize: </p>
-            <p id="prize" style="transform: translate(19px, 193px);"> </p>
+            <div id="betPrizeTable">
+                <p  style="color: gray; transform: translate(-70px, 280px); font-size: 1.2rem; "> Bet: </p>
+                <p id="bet"  style="transform: translate(10px, 239px);"> </p>
+                <p style="color: gray; transform: translate(-70px, 235px); font-size: 1.2rem;"> Prize: </p>
+                <p id="prize" style="transform: translate(19px, 193px);"> </p>
+            </div>
         </div>
     </div>
+    <img src="gameplay-assets/popup.png" id="popup"  alt="Win/Lost Popup"/>
+
     <footer> &copy; Tyche, Blockchain Casino</footer>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -146,7 +157,6 @@
 <script src = '../web3.min.js'></script>
 <script type = "text/javascript" src="../src/utils.js"></script>
 <script src="box-game.js"></script>
-
 
 </body>
 </html>

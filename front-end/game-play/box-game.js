@@ -1,5 +1,7 @@
 var passwordGame_contract = null;
 var accounts = null;
+var price;
+var reward;
 async function passwordGame_App() {
   const web3 = await getWeb3();
   accounts = await web3.eth.getAccounts();
@@ -12,19 +14,19 @@ var boxColor = localStorage.getItem('boxColor');
 console.log(boxColor);
 if(boxColor == 0){
   document.getElementById("swipe-end").src = "../assets/box-blue.png";
-  document.getElementById("bet").innerHTML = "0.01 ETH";
-  document.getElementById("prize").innerHTML = "0.1 ETH";
+  document.getElementById("bet").innerHTML = price = "0.01 ETH";
+  document.getElementById("prize").innerHTML = reward = "0.1 ETH";
 
 }
 else if(boxColor == 2){
   document.getElementById("swipe-end").src = "../assets/box-purple.png";
-  document.getElementById("bet").innerHTML = "0.027 ETH";
-  document.getElementById("prize").innerHTML = "0.27 ETH";
+  document.getElementById("bet").innerHTML = price = "0.027 ETH";
+  document.getElementById("prize").innerHTML  = reward = "0.27 ETH";
 }
 else{
   document.getElementById("swipe-end").src = "../assets/box-yellow.png";
-  document.getElementById("bet").innerHTML = "0.068 ETH";
-  document.getElementById("prize").innerHTML = "0.68 ETH";
+  document.getElementById("bet").innerHTML = price = "0.068 ETH";
+  document.getElementById("prize").innerHTML  = reward = "0.68 ETH";
 }
 
 /* 
@@ -45,7 +47,7 @@ async function swipe(){
   var tl = new TimelineMax({repeat: -3});
   tl.staggerFrom("#dotted-line circle", 0.8, { scale: 1.2, x: 2, y: 0.5, opacity: 1, delay:0.09, ease: Power2.easeInOut, repeat: 1, yoyo: true}, 0.15);
 
-  $btn.on('click touchend', function(e){
+    $btn.on('click touchend', function(e){
     e.preventDefault();
   }).on('touchstart mousedown', function(e) {
     e.preventDefault();
@@ -66,18 +68,6 @@ async function swipe(){
       if (endX < 498) {
         TweenLite.to('#swipe-btn', .5, { x: 0 });
       } 
-    
-      // else{
-      
-      //   console.log($btn.attr('xlink:href'));
-      //   TweenLite.to('#swipe-btn', .1, { x: 215});
-      //   $('.unlock').addClass('unlocked');
-      //   setTimeout(function(){
-      //     TweenLite.to('#swipe-btn', .5, { x: 0 });
-      //     $('.unlock').removeClass('unlocked');
-      //   }, 1400);
-      // }
-      
       if(endX>499){
 
       // await passwordGame_contract.methods
@@ -115,12 +105,21 @@ async function swipe(){
 
       //  console.log(await passwordGame_contract.methods.won().call());
       //console.log(await passwordGame_contract.methods.interest.call());
-  
-       }
+      //document.getElementsByTagName("body")[0].style.filter = "blur(40px)";
+
+      document.getElementById("popup").style.visibility= "visible";
+      var elements = document.querySelectorAll( 'body > *' );
+      var el = document.getElementById("popup");
+      el.style.opacity="1";
+      console.log(el.id);
+      console.log(elements[0].className)
+      document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "blur(6px)");
+    }
       endX = 0;
     }
 
   });
+  
 }
 
 /* GETTING PIN */

@@ -1,18 +1,14 @@
-html{
-    background: black;
-}
-
-body{
-    display: flex;
-    flex-direction: row; 
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
 img{
     width: 300px;
     height: 300px;
     margin-top: 16rem;    
+}
+
+.box-game-body{
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 #logo{

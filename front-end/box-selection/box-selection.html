@@ -3,28 +3,29 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="author" content="Chara Gergi">
+    <meta name="author" content="Chara Gergi, Christos Argyropoulos, Spyros Bazios">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="box-selection-style.css">
-    <link rel="stylesheet" type="text/css" href="../responsive.css">
+    <link rel="stylesheet" type="text/css" href="../main-css/main-style.css">
+    <link rel="stylesheet" type="text/css" href="../main-css/responsive.css">
     <title> Box Game </title>
 </head>
 
 <body class="box-game-body">
 
-        <img src="../game-play/gameplay-assets/logo_rotated.png" id="logo"> </img>
-        <div class="box-container">
-            <img  src="../assets/box-blue.png" />
+        <img src="../game-play/gameplay-assets/logo_rotated.png" id="logo" alt="Tyche Logo"/>
+        <div class="box-container" id="blue-box-container">
+            <img  src="../assets/box-blue.png" alt="Blue Box"/>
             <p class="win-price" style="color: rgba(0,245,255,225)"> WIN 0.1 ETH </p>
             <a href="../game-play/box-game.html" onClick="setBox(0)" > <p class="buy" id="blueBoxPrice">  </p> </a>
         </div>
-        <div class="box-container">
-            <img style="display: inline-box; margin-top: 3.5rem;" src="../assets/box-yellow.png" />
+        <div class="box-container" id="yellow-box-container" >
+            <img style="margin-top: 3.5rem;" src="../assets/box-yellow.png" alt="Yellow Box"/>
             <p class="win-price" style="color: rgb(252,236,12)"> WIN 0.68 ETH</p>
             <a href="../game-play/box-game.html" onClick="setBox(1)" ><p class="buy"  id="yellowBoxPrice">  </p> </a>
         </div>
         <div class="box-container">
-            <img  src="../assets/box-purple.png" /> 
+            <img  src="../assets/box-purple.png" alt="Purple Box"/> 
              <p class="win-price" style="color: rgba(255,0,217,227)"> WIN 0.27 ETH </p>
              <a href="../game-play/box-game.html" onClick="setBox(2)" ><p class="buy" id="purpleBoxPrice">  </p></a>
         </div>
