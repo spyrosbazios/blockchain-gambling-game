@@ -35,9 +35,12 @@ contract PasswordGame {
     modifier owneronly {
         bool isowner = false;
         for (uint i = 0; i < owners.length; i++) {
-            if (msg.sender == owners[i]) isowner = true;
+            if (msg.sender == owners[i]) { 
+                isowner = true;
+                break;
+            }
         }
-        require(isowner, "This method can only be called by an owner!"); 
+        require(isowner, "This method can only be called by an owner!");
         _;
     }
     
