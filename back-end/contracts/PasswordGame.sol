@@ -4,7 +4,6 @@ pragma solidity >=0.4.22 <0.9.0;
 contract PasswordGame {
     
     bool active;
-    string public won = 'LI';
 
     address[] owners; // owners of the contract
     uint8 interest = 10; // maximum must be 100, eg interest = 10 means 10%
@@ -22,16 +21,25 @@ contract PasswordGame {
     mapping (address => Bet) bets;
     
     constructor() payable {
-        //require(msg.value >= 500 ether, "You need a least 500 ether to deploy the contract");
+        require(msg.value >= 500 ether, "You need a least 500 ether to deploy the contract");
         active = true;
-        //owners.push(msg.sender);
-        owners = [0x45C1546AC95a6fc0188Fadd15605857E6f252AC9, 0xbB6376405D473c9A03B443E2420fab3c54fbbcc3];
-        betAmounts = [0, 0.01 ether, 0.027 ether, 0.068 ether];     // randomly chosen, must fix
-        winAmounts = [0, 0.1 ether, 0.27 ether, 0.68 ether];  // randomly chosen, must fix
-        chances = [10, 10, 10];        // randomly chosen, must fix, should be prime numbers
+        owners.push(msg.sender);
+        betAmounts = [0, 1 ether, 2 ether, 3 ether];     // randomly chosen, must fix
+        winAmounts = [0, 10 ether, 20 ether, 30 ether];  // randomly chosen, must fix
+        chances = [2, 4, 8];        // randomly chosen, must fix, should be prime numbers
     }                              // chance is inversed percentage eg chance = 2 means 50%
     
     receive() external payable {}
+    
+    modifier activereq {require(active, "Smart contract must be active!"); _;}
+    modifier owneronly {
+        bool isowner = false;
+        for (uint i = 0; i < owners.length; i++) {
+            if (msg.sender == owners[i]) isowner = true;
+        }
+        require(isowner, "This method can only be called by an owner!"); 
+        _;
+    }
     
     /* contract getters */
     function getContractBalance() public view returns (uint256) {return address(this).balance;}
@@ -46,9 +54,7 @@ contract PasswordGame {
     The contract must be active
     The msg.sender must be an owner
     */
-    function deactivate() public {
-        require(active, "Smart Contract must be active!");
-        require(isOwner(msg.sender), "Only an owner can deactivate the contract");
+    function deactivate() activereq owneronly public  {
         splitFunds(address(this).balance);
         active = false;
     }
@@ -62,14 +68,14 @@ contract PasswordGame {
     
     @params:
     address addr: The address to check if it's an owner
-    */
-    function isOwner(address addr) public view returns (bool) {
-        require(active, "Smart Contract must be active!");
+    
+    function isOwner(address addr) activereq public view returns (bool) {
         for (uint i = 0; i < owners.length; i++) {
             if (addr == owners[i]) return true;
         }
         return false;
     }
+    */
     
     /*
     @functionality:
@@ -81,9 +87,7 @@ contract PasswordGame {
     @params:
     address newOwner: The address to replace the owner's address with
     */
-    function replaceOwner(address newOwner) public {
-        require(active, "Smart Contract must be active!");
-        //require(isOwner(msg.sender), "You must be already an owner to add new owners!"); omitted to save gas from double loops
+    function replaceOwner(address newOwner) activereq public {
         for (uint8 i = 0; i < owners.length; i < i++) {
             if (owners[i] == msg.sender) owners[i] = newOwner;
         }
@@ -100,9 +104,7 @@ contract PasswordGame {
     @params:
     uint amount: The amount of the contract's balance to split among owners
     */
-    function splitFunds(uint amount) public {
-        require(active, "Smart Contract must be active!");
-        require(isOwner(msg.sender));
+    function splitFunds(uint amount) activereq owneronly public {
         for (uint i = 0; i < owners.length; i++) {
             (bool success,) = owners[i].call{value: amount/owners.length}('');
             assert(success); // if (!success) revert(); works too
@@ -133,8 +135,7 @@ contract PasswordGame {
     uint8 betIndex: The index of the chosen box
     uint8[9] codes: The codes chosen from the player
     */
-    function createBet(uint8 betIndex, uint8[9] calldata codes) public payable {
-        require(active, "Smart Contract must be active!");
+    function createBet(uint8 betIndex, uint8[9] calldata codes) activereq public payable {
         require(betIndex >= 1 && betIndex <= 3, "Please choose a valid box number");
         require(msg.value >= betAmounts[betIndex], "Please make sure you have sufficient funds");
         // require(address(this).balance >= winAmounts[betIndex], "There's not enough money in the contract in case you win!");
@@ -153,8 +154,7 @@ contract PasswordGame {
     The contract must be active
     The player must have an active bet
     */
-    function cancelBet() public {
-        require(active, "Smart Contract must be active!");
+    function cancelBet() activereq public {
         Bet storage b = bets[msg.sender];
         require(b.betIndex != 0, "You must have placed a bet to cancel it!");
 
@@ -177,8 +177,7 @@ contract PasswordGame {
     The player must have an active bet
     The current block number must be greater than the block number at the time of the bet's creation  
     */
-    function verifyBet() public returns (bool) {
-        require(active, "Smart Contract must be active!");
+    function verifyBet() activereq public returns (bool) {
         Bet storage b = bets[msg.sender];
         require(b.betIndex != 0, "You must have placed a bet to verify it!");
         require(block.number > b.blockNumber); // or blockhash will fail because the block won't be mined yet
@@ -189,7 +188,6 @@ contract PasswordGame {
         delete bets[msg.sender]; // maybe codes are not deleted correctly
 
         bool verified = verifyCodes(blockNumber, codes, chances[betIndex]);
-        won = 'VW';
         if (verified) {
             uint ownerWins = winAmounts[betIndex] * interest / 100;
             uint playerWins = winAmounts[betIndex] - ownerWins;
@@ -215,11 +213,9 @@ contract PasswordGame {
     uint8[9] codes: The codes included in the bet 
     uint8 chance: The chance to win of the bet's box
     */
-    function verifyCodes(uint blockNumber, uint8[9] memory codes, uint8 chance) private view returns (bool) {
-        require(active, "Smart Contract must be active!");
+    function verifyCodes(uint blockNumber, uint8[9] memory codes, uint8 chance) activereq private view returns (bool) {
         for (uint i = 0; i < 9; i += 3) {
             uint code = codes[i] * 100 + codes[i+1] * 10 + codes[i+2];
-            if (code == 111) return true;
             uint hashedCode = uint(keccak256(abi.encodePacked(bytes32(code), blockhash(blockNumber))));
             if (hashedCode % chance == 0) return true;
         }
