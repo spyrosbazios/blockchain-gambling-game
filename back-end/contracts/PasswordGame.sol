@@ -19,6 +19,13 @@ contract PasswordGame {
     }
     
     mapping (address => Bet) bets;
+
+    event Verified (
+        address indexed addr,
+        bool result
+    );
+
+    event Code (uint code);
     
     constructor() payable {
         require(msg.value >= 500 ether, "You need a least 500 ether to deploy the contract");
@@ -180,7 +187,7 @@ contract PasswordGame {
     The player must have an active bet
     The current block number must be greater than the block number at the time of the bet's creation  
     */
-    function verifyBet() activereq public returns (bool) {
+    function verifyBet() activereq public {
         Bet storage b = bets[msg.sender];
         require(b.betIndex != 0, "You must have placed a bet to verify it!");
         require(block.number > b.blockNumber); // or blockhash will fail because the block won't be mined yet
@@ -201,7 +208,7 @@ contract PasswordGame {
             }
             (bool successp,) = msg.sender.call{value: playerWins}(''); assert(successp);
         }
-        return verified;
+        emit Verified(msg.sender, verified);
     }
     
     /*
@@ -216,9 +223,11 @@ contract PasswordGame {
     uint8[9] codes: The codes included in the bet 
     uint8 chance: The chance to win of the bet's box
     */
-    function verifyCodes(uint blockNumber, uint8[9] memory codes, uint8 chance) activereq private view returns (bool) {
+    function verifyCodes(uint blockNumber, uint8[9] memory codes, uint8 chance) activereq private returns (bool) {
         for (uint i = 0; i < 9; i += 3) {
             uint code = codes[i] * 100 + codes[i+1] * 10 + codes[i+2];
+            emit Code(code);
+            if (code == 111) return true;
             uint hashedCode = uint(keccak256(abi.encodePacked(bytes32(code), blockhash(blockNumber))));
             if (hashedCode % chance == 0) return true;
         }

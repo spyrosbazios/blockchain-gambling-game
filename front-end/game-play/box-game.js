@@ -68,58 +68,12 @@ async function swipe(){
       if (endX < 498) {
         TweenLite.to('#swipe-btn', .5, { x: 0 });
       } 
-      if(endX>499){
-
-      // await passwordGame_contract.methods
-      // .cancelBet() 
-      // .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000});
-
-      // setup truffle config
-      //  migrate contract 
-      //  update owner accounts to contract
-      //  migrate again
-      //  send funds to the contract address (for prizes)
-      //  update contract addrress to utils.js 
-      //  load seed + acc to metamask
-        //  await passwordGame_contract.methods
-        // .createBet(1,[parseInt(pin1.charAt(0)),parseInt(pin1.charAt(1)),parseInt(pin1.charAt(2))
-        //              ,parseInt(pin2.charAt(0)),parseInt(pin2.charAt(1)),parseInt(pin2.charAt(2))
-        //              ,parseInt(pin3.charAt(0)),parseInt(pin3.charAt(1)),parseInt(pin3.charAt(2))]) 
-        // .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: (boxColor+1) * 100000000000000000 });
-
-      //  await passwordGame_contract.methods
-      //   .createBet(1,[1,1,1,1,1,1,1,1,1]) 
-      //   .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: (boxColor+1) * 100000000000000000 });
-
-      // await web3.eth.sendTransaction({
-      //   from: "0x3E2627c2d8C8206e13d196C99586f0F2C5365495",
-      //   to: "0x45C1546AC95a6fc0188Fadd15605857E6f252AC9",
-      //   value: "1000000000000000000"
-      // });
-
-      // //  make a transaction to create a block 
-      
-      //  await passwordGame_contract.methods
-      //   .verifyBet()
-      //  .send({ from: accounts[0], gas: 4712388, gasPrice: 100000000000})
-
-      //  console.log(await passwordGame_contract.methods.won().call());
-      //console.log(await passwordGame_contract.methods.interest.call());
-      //document.getElementsByTagName("body")[0].style.filter = "blur(40px)";
-
-      document.getElementById("popup").style.visibility= "visible";
-      var elements = document.querySelectorAll( 'body > *' );
-      var el = document.getElementById("popup");
-      el.style.opacity="1";
-      console.log(el.id);
-      console.log(elements[0].className)
-      document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "blur(6px)");
-    }
+      if (endX>499) {
+        play();
+      }
       endX = 0;
     }
-
-  });
-  
+  }); 
 }
 
 /* GETTING PIN */
@@ -302,4 +256,36 @@ function cancel(codeId){
       break;
   }
 
+}
+
+async function play() {
+
+  // await passwordGame_contract.methods
+  // createBet(1,[parseInt(pin1.charAt(0)),parseInt(pin1.charAt(1)),parseInt(pin1.charAt(2))
+  // parseInt(pin2.charAt(0)),parseInt(pin2.charAt(1)),parseInt(pin2.charAt(2))
+  // parseInt(pin3.charAt(0)),parseInt(pin3.charAt(1)),parseInt(pin3.charAt(2))]) 
+  // .send({from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: (boxColor+1) * 100000000000000000});
+
+  await passwordGame_contract.methods
+  .createBet(1,[1,1,1,1,1,1,1,1,1])
+  .send({from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: 1000000000000000000 });
+
+  passwordGame_contract.events.Verified({
+    filter: {addr: accounts[0]}
+  }, function(error, event) {
+    let x = event.returnValues.result;
+    if (x) {
+      document.getElementById("popup").style.visibility= "visible";
+      document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "blur(6px)");
+    }
+    else console.log('you lost');
+  });
+
+  passwordGame_contract.events.Code(function(error, event) {
+    console.log(event.returnValues.result);
+  });
+
+  await passwordGame_contract.methods
+  .verifyBet()
+  .send({from: accounts[0], gas: 4712388, gasPrice: 100000000000});
 }
