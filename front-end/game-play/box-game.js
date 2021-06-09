@@ -298,7 +298,6 @@ async function play() {
   .createBet(uint8[0], [uint8[1], uint8[2], uint8[3], uint8[4], uint8[5], uint8[6], uint8[7], uint8[8], uint8[9], uint8[10], uint8[11], uint8[12]]) 
   .send({from: accounts[0], gas: 4712388, gasPrice: 200000000000, value: 1000000000000000000});
 
-  // 4712388
   // await passwordGame_contract.methods
   // .createBet(1,[1,1,1,1,1,1,1,1,1])
   // .send({from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: 1000000000000000000 });
@@ -309,7 +308,7 @@ async function play() {
     console.log(event.returnValues.codes);
     let x = event.returnValues.result;
     if (x) {
-      var popup =  document.getElementById("popup");
+      var popup = document.getElementById("popup");
       popup.style.visibility= "visible";
       document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "blur(6px)");
       document.onclick = function(e){
@@ -322,9 +321,9 @@ async function play() {
     else console.log('you lost');
   });
 
-  // passwordGame_contract.events.Code(function(error, event) {
-  //   console.log(event.returnValues.result);
-  // });
+  passwordGame_contract.events.Code(function(error, event) {
+    console.log("code: " + event.returnValues.code);
+  });
 
   await passwordGame_contract.methods
   .verifyBet()

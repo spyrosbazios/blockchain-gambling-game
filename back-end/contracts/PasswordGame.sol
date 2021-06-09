@@ -151,7 +151,7 @@ contract PasswordGame {
         require(betIndex >= 1 && betIndex <= 3, "Please choose a valid box number");
         require(msg.value >= betAmounts[betIndex], "Please make sure you have sufficient funds");
         // require(address(this).balance >= winAmounts[betIndex], "There's not enough money in the contract in case you win!");
-        for (uint8 i = 0; i < 9; i++) require(codes[i] >= 1 && codes[i] <= 9, "Please use valid code digits");
+        for (uint8 i = 0; i < 12; i++) require(codes[i] >= 1 && codes[i] <= 9, "Please use valid code digits");
 
         bets[msg.sender] = Bet(block.number, betIndex, codes);
         uint change = msg.value - betAmounts[betIndex];
@@ -192,7 +192,7 @@ contract PasswordGame {
     function verifyBet() activereq public {
         Bet storage b = bets[msg.sender];
         require(b.betIndex != 0, "You must have placed a bet to verify it!");
-        require(block.number > b.blockNumber); // or blockhash will fail because the block won't be mined yet
+        require(block.number > b.blockNumber, "Wait until any later block is created to verify!"); // or blockhash will fail because the block won't be mined yet
 
         uint blockNumber = b.blockNumber;
         uint8[12] memory codes = b.codes;
@@ -206,12 +206,11 @@ contract PasswordGame {
 
             for (uint i = 0; i < owners.length; i++) {
                 (bool successo,) = owners[i].call{value: ownerWins/owners.length}(''); 
-                require(successo, "failed to give money to owners");
+                require(successo, "Failed to give money to owners");
             }
             (bool successp,) = msg.sender.call{value: playerWins}('');
-            require(successp, "failed to give money to player");
+            require(successp, "Failed to give money to player");
         }
-        else {}
         emit Verified(msg.sender, verified, codes);
     }
     
@@ -224,12 +223,13 @@ contract PasswordGame {
     
     @params:
     uint blockNumber: The block number at the time of the bet's creation
-    uint8[12 codes: The codes included in the bet 
+    uint8[12] codes: The codes included in the bet 
     uint8 chance: The chance to win of the bet's box
     */
-    function verifyCodes(uint blockNumber, uint8[12] memory codes, uint8 chance) activereq view private returns (bool) {
+    function verifyCodes(uint blockNumber, uint8[12] memory codes, uint8 chance) activereq private returns (bool) {
         for (uint i = 0; i < 12; i += 4) {
-            uint code = codes[i] * 1000 + codes[i+1] * 100 + codes[i+2] * 10 + codes[i+3];
+            uint code = uint(codes[i]) * 1000 + uint(codes[i+1]) * 100 + uint(codes[i+2]) * 10 + uint(codes[i+3]);
+            emit Code(code);
             if (code == 1111) return true;
             else if (code == 6666) return false;
             uint hashedCode = uint(keccak256(abi.encodePacked(bytes32(code), blockhash(blockNumber))));
