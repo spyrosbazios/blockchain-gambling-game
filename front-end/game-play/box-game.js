@@ -70,19 +70,18 @@ function swipe(){
         TweenLite.to('#swipe-btn', .5, { x: 0 });
       } 
       if (endX>499) {
-        //play();
+        play();
         finish = true;
-        var popup =  document.getElementById("popup");
+        /* var popup =  document.getElementById("popup");
         popup.style.visibility= "visible";
         document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "blur(6px)");
         //setTimeout(1000);
         document.addEventListener('mouseup', function(e) {
           if (!popup.contains(e.target)) {
-              popup.style.visibility = 'hidden';
-              document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "none");
-
+            popup.style.visibility = 'hidden';
+            document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "none");
           }
-      });
+        }); */
         // document.onclick = function(e){
         //   if(e.target.id != "popup"){
         //     document.querySelectorAll("body").forEach(element => element.style.filter = "blur(0px)");
@@ -281,19 +280,33 @@ function cancel(codeId){
 
 async function play() {
 
-  // await passwordGame_contract.methods
-  // createBet(1,[parseInt(pin1.charAt(0)),parseInt(pin1.charAt(1)),parseInt(pin1.charAt(2))
-  // parseInt(pin2.charAt(0)),parseInt(pin2.charAt(1)),parseInt(pin2.charAt(2))
-  // parseInt(pin3.charAt(0)),parseInt(pin3.charAt(1)),parseInt(pin3.charAt(2))]) 
-  // .send({from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: (boxColor+1) * 100000000000000000});
+  var uint8 = new Uint8Array(13); 
+  var pins = [pin1, pin2, pin3];
+  for (let i = 0; i < pins.length; i++) {
+    for (let j = 0; j < pins[i].length; j++) {
+      uint8[1 + i * pins[i].length + j] = parseInt(pins[i].charAt(j));
+      console.log(uint8[i * pins[i].length + j]);
+    }
+  }
 
+  uint8[0] = 1;
+  console.log(uint8.BYTES_PER_ELEMENT);
+  console.log([uint8[0], uint8[1], uint8[2], uint8[3], uint8[4], uint8[5], uint8[6], uint8[7], uint8[8], uint8[9], uint8[10], uint8[11], uint8[12]].BYTES_PER_ELEMENT);
+
+  
   await passwordGame_contract.methods
-  .createBet(1,[1,1,1,1,1,1,1,1,1])
-  .send({from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: 1000000000000000000 });
+  .createBet(uint8[0], [uint8[1], uint8[2], uint8[3], uint8[4], uint8[5], uint8[6], uint8[7], uint8[8], uint8[9], uint8[10], uint8[11], uint8[12]]) 
+  .send({from: accounts[0], gas: 4712388, gasPrice: 200000000000, value: 1000000000000000000});
+
+  // 4712388
+  // await passwordGame_contract.methods
+  // .createBet(1,[1,1,1,1,1,1,1,1,1])
+  // .send({from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: 1000000000000000000 });
 
   passwordGame_contract.events.Verified({
     filter: {addr: accounts[0]}
   }, function(error, event) {
+    console.log(event.returnValues.codes);
     let x = event.returnValues.result;
     if (x) {
       var popup =  document.getElementById("popup");
@@ -309,11 +322,11 @@ async function play() {
     else console.log('you lost');
   });
 
-  passwordGame_contract.events.Code(function(error, event) {
-    console.log(event.returnValues.result);
-  });
+  // passwordGame_contract.events.Code(function(error, event) {
+  //   console.log(event.returnValues.result);
+  // });
 
   await passwordGame_contract.methods
   .verifyBet()
-  .send({from: accounts[0], gas: 4712388, gasPrice: 100000000000});
+  .send({from: accounts[0], gas: 4712388, gasPrice: 200000000000});
 }

@@ -15,14 +15,15 @@ contract PasswordGame {
     struct Bet {
         uint blockNumber;
         uint8 betIndex;
-        uint8[9] codes;
+        uint8[12] codes;
     }
     
     mapping (address => Bet) bets;
 
     event Verified (
         address indexed addr,
-        bool result
+        bool result,
+        uint8[12] codes
     );
 
     event Code (uint code);
@@ -64,7 +65,7 @@ contract PasswordGame {
     The contract must be active
     The msg.sender must be an owner
     */
-    function deactivate() activereq owneronly public  {
+    function deactivate() activereq owneronly public {
         splitFunds(address(this).balance);
         active = false;
     }
@@ -124,8 +125,8 @@ contract PasswordGame {
     /* bet getters */
     function getBetIndex(address addr) public view returns (uint8) {return bets[addr].betIndex;}
     function getBetBlockNumber(address addr) public view returns (uint) {return bets[addr].blockNumber;}
-    function getBetCodes(address addr) public view returns (uint8[9] memory) {
-        uint8[9] memory c = bets[addr].codes;
+    function getBetCodes(address addr) public view returns (uint8[12] memory) {
+        uint8[12] memory c = bets[addr].codes;
         return c;
     }
     /* bet getters */
@@ -143,9 +144,10 @@ contract PasswordGame {
     
     @params:
     uint8 betIndex: The index of the chosen box
-    uint8[9] codes: The codes chosen from the player
+    uint8[12 codes: The codes chosen from the player
     */
-    function createBet(uint8 betIndex, uint8[9] calldata codes) activereq public payable {
+    function createBet(uint8 betIndex, uint8[12] calldata codes) activereq public payable {
+        require(bets[msg.sender].betIndex == 0, "You have already placed a bet!");
         require(betIndex >= 1 && betIndex <= 3, "Please choose a valid box number");
         require(msg.value >= betAmounts[betIndex], "Please make sure you have sufficient funds");
         // require(address(this).balance >= winAmounts[betIndex], "There's not enough money in the contract in case you win!");
@@ -193,7 +195,7 @@ contract PasswordGame {
         require(block.number > b.blockNumber); // or blockhash will fail because the block won't be mined yet
 
         uint blockNumber = b.blockNumber;
-        uint8[9] memory codes = b.codes;
+        uint8[12] memory codes = b.codes;
         uint8 betIndex = b.betIndex;
         delete bets[msg.sender]; // maybe codes are not deleted correctly
 
@@ -204,11 +206,13 @@ contract PasswordGame {
 
             for (uint i = 0; i < owners.length; i++) {
                 (bool successo,) = owners[i].call{value: ownerWins/owners.length}(''); 
-                assert(successo);
+                require(successo, "failed to give money to owners");
             }
-            (bool successp,) = msg.sender.call{value: playerWins}(''); assert(successp);
+            (bool successp,) = msg.sender.call{value: playerWins}('');
+            require(successp, "failed to give money to player");
         }
-        emit Verified(msg.sender, verified);
+        else {}
+        emit Verified(msg.sender, verified, codes);
     }
     
     /*
@@ -220,14 +224,14 @@ contract PasswordGame {
     
     @params:
     uint blockNumber: The block number at the time of the bet's creation
-    uint8[9] codes: The codes included in the bet 
+    uint8[12 codes: The codes included in the bet 
     uint8 chance: The chance to win of the bet's box
     */
-    function verifyCodes(uint blockNumber, uint8[9] memory codes, uint8 chance) activereq private returns (bool) {
-        for (uint i = 0; i < 9; i += 3) {
-            uint code = codes[i] * 100 + codes[i+1] * 10 + codes[i+2];
-            emit Code(code);
-            if (code == 111) return true;
+    function verifyCodes(uint blockNumber, uint8[12] memory codes, uint8 chance) activereq view private returns (bool) {
+        for (uint i = 0; i < 12; i += 4) {
+            uint code = codes[i] * 1000 + codes[i+1] * 100 + codes[i+2] * 10 + codes[i+3];
+            if (code == 1111) return true;
+            else if (code == 6666) return false;
             uint hashedCode = uint(keccak256(abi.encodePacked(bytes32(code), blockhash(blockNumber))));
             if (hashedCode % chance == 0) return true;
         }
