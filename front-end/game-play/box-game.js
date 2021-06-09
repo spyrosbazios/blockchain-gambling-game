@@ -71,30 +71,8 @@ function swipe(){
   }).on('touchend mouseup', function(e) {
     if (swiperDragged) {
       swiperDragged = false;
-      if (endX < 498) {
-        TweenLite.to('#swipe-btn', .5, { x: 0 });
-      } 
-      if (endX>499) {
-        play();
-        finish = true;
-        /* var popup =  document.getElementById("popup");
-        popup.style.visibility= "visible";
-        document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "blur(6px)");
-        //setTimeout(1000);
-        document.addEventListener('mouseup', function(e) {
-          if (!popup.contains(e.target)) {
-            popup.style.visibility = 'hidden';
-            document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "none");
-          }
-        }); */
-        // document.onclick = function(e){
-        //   if(e.target.id != "popup"){
-        //     document.querySelectorAll("body").forEach(element => element.style.filter = "blur(0px)");
-        //     popup.style.visibility = "hidden";
-
-        //   }
-        // };
-      }
+      if (endX < 498) TweenLite.to('#swipe-btn', .5, { x: 0 }); 
+      if (endX>499) play();
       endX = 0;
     }
   }); 
@@ -303,18 +281,17 @@ async function play() {
   }, function(error, event) {
     console.log(event.returnValues.codes);
     let x = event.returnValues.result;
-    if (x) {
-      var popup = document.getElementById("popup");
-      popup.style.visibility= "visible";
-      document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "blur(6px)");
-      document.onclick = function(e){
-        if(e.target.id !== "popup"){
-          popup.style.visibility = "hidden";
-          document.querySelectorAll().forEach(element => element.style.filter = "blur(0px)");
-        }
-      };
-    }
-    else console.log('you lost');
+    var popup = document.getElementById("popup");
+    if (!x) popup.src = "gameplay-assets/popup_lost.png";
+    popup.style.visibility= "visible";
+    document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "blur(6px)");
+    document.addEventListener('mouseup', function(e) {
+      if (!popup.contains(e.target)) {
+          popup.style.visibility = 'hidden';
+          document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "none");
+
+      }
+  });
   });
 
   passwordGame_contract.events.Code(function(error, event) {
