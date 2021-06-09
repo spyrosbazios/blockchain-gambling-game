@@ -6,26 +6,23 @@
    *
    */
     .game-list{
-        display: column flex;
-        justify-content: space-around;
+        flex-direction: column;
+        justify-content: center;
         margin-top: 5%;
     }
 
-    .game-list div{
-        margin-top: 40px;
+    #game-list button{
+      margin-top: 30px;
+      margin-left: 25%;
+      background-size: 350px 458px;
+      width: 250px;
+      height: 350px;
     }
 
-    .hoverGames button:hover {
-        width: 260px;
-        height: 355px;
-        margin-top: 0px;
-      }
-
-    .hoverGames button{
-        width: 250px;
-        height: 350px;
+    #boxGame:hover{
+      background-size: 250px 390px;
+      margin-top: 30px;
     }
-
     /*
      *
      * BOX-SELECTION PAGE 

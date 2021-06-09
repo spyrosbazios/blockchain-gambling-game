@@ -34,7 +34,6 @@
   border-radius: 25px;
   width: 350px;
   height: 450px;
-  -webkit-transition: margin 0.5s ease-out;
 }
 
 .hoverGames button:hover {
@@ -65,9 +64,9 @@
 
 #boxGame:hover{
   background-image: url("../assets/box-info_2.png");
-  background-size:100%;
+ /* background-size:100%;*/
   background-repeat: no-repeat;
-  background-position: absolute;
+  /*background-position: absolute;*/
   background-size: 380px 550px;
   border: none;
   border-radius: 0%;
