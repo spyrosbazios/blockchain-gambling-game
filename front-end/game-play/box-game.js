@@ -2,6 +2,7 @@ var passwordGame_contract = null;
 var accounts = null;
 var price;
 var reward;
+var finish;
 async function passwordGame_App() {
   const web3 = await getWeb3();
   accounts = await web3.eth.getAccounts();
@@ -38,7 +39,7 @@ var swiperDragged = false,
     startX,
     endX = 0;
 
-async function swipe(){
+function swipe(){
   var $swipe = $('.swiper'),
       $btn = $('.swipe-btn', $swipe);
 
@@ -56,20 +57,39 @@ async function swipe(){
     endX = 0;
   })
 
-  $(document).on('touchmove mousemove', async function(e){
+  $(document).on('touchmove mousemove', function(e){
     if (swiperDragged) {
       actualX = typeof e.pageX != 'undefined' ? e.pageX : e.originalEvent.touches[0].pageX;
       endX = Math.max(0, Math.min(500, actualX - startX));
       TweenLite.to('#swipe-btn', 0, { x: endX});
     }
-  }).on('touchend mouseup', async function(e) {
+  }).on('touchend mouseup', function(e) {
     if (swiperDragged) {
       swiperDragged = false;
       if (endX < 498) {
         TweenLite.to('#swipe-btn', .5, { x: 0 });
       } 
       if (endX>499) {
-        play();
+        //play();
+        finish = true;
+        var popup =  document.getElementById("popup");
+        popup.style.visibility= "visible";
+        document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "blur(6px)");
+        //setTimeout(1000);
+        document.addEventListener('mouseup', function(e) {
+          if (!popup.contains(e.target)) {
+              popup.style.visibility = 'hidden';
+              document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "none");
+
+          }
+      });
+        // document.onclick = function(e){
+        //   if(e.target.id != "popup"){
+        //     document.querySelectorAll("body").forEach(element => element.style.filter = "blur(0px)");
+        //     popup.style.visibility = "hidden";
+
+        //   }
+        // };
       }
       endX = 0;
     }
@@ -232,6 +252,7 @@ function getBtnId(btnId){
 }
 
 function cancel(codeId){
+  if(finish) return;
   switch (codeId){
     case "cross1":
       console.log(pin1.length);
@@ -275,8 +296,15 @@ async function play() {
   }, function(error, event) {
     let x = event.returnValues.result;
     if (x) {
-      document.getElementById("popup").style.visibility= "visible";
+      var popup =  document.getElementById("popup");
+      popup.style.visibility= "visible";
       document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "blur(6px)");
+      document.onclick = function(e){
+        if(e.target.id !== "popup"){
+          popup.style.visibility = "hidden";
+          document.querySelectorAll().forEach(element => element.style.filter = "blur(0px)");
+        }
+      };
     }
     else console.log('you lost');
   });
