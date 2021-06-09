@@ -197,7 +197,7 @@ contract PasswordGame {
         uint8 betIndex = b.betIndex;
         delete bets[msg.sender]; // maybe codes are not deleted correctly
 
-        bool verified = verifyCodes(blockNumber, codes, chances[betIndex]);
+        bool verified = verifyCodes(blockNumber, codes, chances[betIndex - 1]);
         if (verified) {
             uint ownerWins = winAmounts[betIndex] * interest / 100;
             uint playerWins = winAmounts[betIndex] - ownerWins;
