@@ -10,7 +10,7 @@ contract PasswordGame {
 
     uint[] betAmounts;
     uint[] winAmounts;
-    uint8[] chances;
+    uint[] chances;
 
     struct Bet {
         uint blockNumber;
@@ -32,10 +32,10 @@ contract PasswordGame {
         require(msg.value >= 500 ether, "You need a least 500 ether to deploy the contract");
         active = true;
         owners.push(msg.sender);
-        betAmounts = [0, 1 ether, 2 ether, 3 ether];     // randomly chosen, must fix
-        winAmounts = [0, 10 ether, 20 ether, 30 ether];  // randomly chosen, must fix
-        chances = [2, 4, 8];        // randomly chosen, must fix, should be prime numbers
-    }                              // chance is inversed percentage eg chance = 2 means 50%
+        betAmounts = [0, 10000000 gwei, 27000000 gwei, 68000000 gwei];
+        winAmounts = [0, 100000000 gwei, 270000000 gwei, 680000000 gwei];
+        chances = [1000, 1000, 1000]; // chance is inversed percentage eg chance = 2 means 50%
+    }                                                    
     
     receive() external payable {}
     
@@ -149,7 +149,7 @@ contract PasswordGame {
     function createBet(uint8 betIndex, uint8[12] calldata codes) activereq public payable {
         require(bets[msg.sender].betIndex == 0, "You have already placed a bet!");
         require(betIndex >= 1 && betIndex <= 3, "Please choose a valid box number");
-        require(msg.value >= betAmounts[betIndex], "Please make sure you have sufficient funds");
+        require(msg.value >= betAmounts[betIndex], "Please make sure you send sufficient funds");
         // require(address(this).balance >= winAmounts[betIndex], "There's not enough money in the contract in case you win!");
         for (uint8 i = 0; i < 12; i++) require(codes[i] >= 1 && codes[i] <= 9, "Please use valid code digits");
 
@@ -226,7 +226,7 @@ contract PasswordGame {
     uint8[12] codes: The codes included in the bet 
     uint8 chance: The chance to win of the bet's box
     */
-    function verifyCodes(uint blockNumber, uint8[12] memory codes, uint8 chance) activereq private returns (bool) {
+    function verifyCodes(uint blockNumber, uint8[12] memory codes, uint chance) activereq private returns (bool) {
         for (uint i = 0; i < 12; i += 4) {
             uint code = uint(codes[i]) * 1000 + uint(codes[i+1]) * 100 + uint(codes[i+2]) * 10 + uint(codes[i+3]);
             emit Code(code);

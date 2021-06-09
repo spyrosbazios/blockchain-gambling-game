@@ -13,21 +13,26 @@ passwordGame_App();
 
 var boxColor = localStorage.getItem('boxColor');
 console.log(boxColor);
-if(boxColor == 0){
+if (boxColor == 0) {
   document.getElementById("swipe-end").src = "../assets/box-blue.png";
-  document.getElementById("bet").innerHTML = price = "0.01 ETH";
-  document.getElementById("prize").innerHTML = reward = "0.1 ETH";
-
+  document.getElementById("bet").innerHTML = "0.01 ETH"; 
+  price = 0.01;
+  document.getElementById("prize").innerHTML = "0.1 ETH"; 
+  reward = 0.1;
 }
-else if(boxColor == 2){
+else if (boxColor == 1) {
   document.getElementById("swipe-end").src = "../assets/box-purple.png";
-  document.getElementById("bet").innerHTML = price = "0.027 ETH";
-  document.getElementById("prize").innerHTML  = reward = "0.27 ETH";
+  document.getElementById("bet").innerHTML = "0.027 ETH"; 
+  price = 0.027;
+  document.getElementById("prize").innerHTML = "0.27 ETH";
+  reward = 0.27;
 }
-else{
+else {
   document.getElementById("swipe-end").src = "../assets/box-yellow.png";
-  document.getElementById("bet").innerHTML = price = "0.068 ETH";
-  document.getElementById("prize").innerHTML  = reward = "0.68 ETH";
+  document.getElementById("bet").innerHTML = "0.068 ETH";
+  price = 0.068;
+  document.getElementById("prize").innerHTML = "0.68 ETH";
+  reward = 0.68;
 }
 
 /* 
@@ -285,22 +290,13 @@ async function play() {
   for (let i = 0; i < pins.length; i++) {
     for (let j = 0; j < pins[i].length; j++) {
       uint8[1 + i * pins[i].length + j] = parseInt(pins[i].charAt(j));
-      console.log(uint8[i * pins[i].length + j]);
     }
   }
-
-  uint8[0] = 1;
-  console.log(uint8.BYTES_PER_ELEMENT);
-  console.log([uint8[0], uint8[1], uint8[2], uint8[3], uint8[4], uint8[5], uint8[6], uint8[7], uint8[8], uint8[9], uint8[10], uint8[11], uint8[12]].BYTES_PER_ELEMENT);
-
+  uint8[0] = parseInt(boxColor, 10) + 1;
   
   await passwordGame_contract.methods
   .createBet(uint8[0], [uint8[1], uint8[2], uint8[3], uint8[4], uint8[5], uint8[6], uint8[7], uint8[8], uint8[9], uint8[10], uint8[11], uint8[12]]) 
-  .send({from: accounts[0], gas: 4712388, gasPrice: 200000000000, value: 1000000000000000000});
-
-  // await passwordGame_contract.methods
-  // .createBet(1,[1,1,1,1,1,1,1,1,1])
-  // .send({from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: 1000000000000000000 });
+  .send({from: accounts[0], gas: 4712388, gasPrice: 100000000000, value: 1000000000000000000 * price});
 
   passwordGame_contract.events.Verified({
     filter: {addr: accounts[0]}
@@ -327,5 +323,5 @@ async function play() {
 
   await passwordGame_contract.methods
   .verifyBet()
-  .send({from: accounts[0], gas: 4712388, gasPrice: 200000000000});
+  .send({from: accounts[0], gas: 4712388, gasPrice: 100000000000});
 }
