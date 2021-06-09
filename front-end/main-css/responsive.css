@@ -80,58 +80,62 @@
       overflow: visible;
   }
 
-    /* .swiper{
-    margin-top: 45rem;
-    margin-left: 1rem;
-    } */
+    #box-container{
+      width: 500px;
+      height: 695px;
+      margin-left: 1rem;
+      }
 
-  #box-container{
-    width: 500px;
-    margin-left: 1rem;
+    #forge-keys-container{
+      width: 500px;
+      height: 720px;
+      margin: 33rem -24rem;
     }
 
-  #forge-keys-container{
-    width: 500px;
-    height: 700px;
-    margin: 33rem -24rem;
+    #box-game-body footer{
+      bottom: -850px;
+      margin-top: 1.2rem;
+    } 
+
+    #polygon1, #polygon2, #polygon3{
+      margin-left: 1.5rem;
+    }
+
+    #swipe-end{
+      height: 220px;
+      width: 220px;
+      margin-top: 1rem;
   }
+    .swipe-btn{
+      height: 180px;
+      width: 180px;
+      margin-left: 5.5rem;
+      margin-top: 6rem;
+    }
 
-  #box-game-body footer{
-    /* margin-top: 16rem; */
-    bottom: -850px;
-  } 
+    #svg-rot{
+      transform: rotate(90deg);
+      margin-top: 3.5rem;
+      margin-left: 8rem;
+      display: block;
+    }
 
-  #polygon1, #polygon2, #polygon3{
-    margin-left: 1.5rem;
-  }
+    #forge-keys-container p{
+      white-space: nowrap;
+      margin-left: 5rem;
+    } 
 
-  #swipe-end{
-    height: 220px;
-    width: 220px;
-    margin-top: 1rem;
-}
-  .swipe-btn{
-    height: 180px;
-    width: 180px;
-    margin-left: 5.5rem;
-    margin-top: 6rem;
-  }
+    #betPrizeTable{
+      margin-top: 60rem;
+      margin-left: -8.5rem;
+      position: absolute;
+    }
 
-  #svg-rot{
-    transform: rotate(90deg);
-    margin-top: 3.5rem;
-    margin-left: 8rem;
-    display: block;
-  }
-
-  #forge-keys-container p{
-    white-space: nowrap;
-    margin-left: 5rem;
-  } 
-
-  #betPrizeTable{
-    margin-top: 60rem;
-    margin-left: -8.5rem;
-    position: absolute;
+    #popup{
+      width: 490px;
+      height: 315px;
+      position: absolute;
+      left: -390px;
+      margin-top: 860px;
   }
 }

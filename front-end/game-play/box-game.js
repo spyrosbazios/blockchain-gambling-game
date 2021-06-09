@@ -2,7 +2,8 @@ var passwordGame_contract = null;
 var accounts = null;
 var price;
 var reward;
-var finish;
+console.log(screen.width)
+console.log(window.outerWidth)
 async function passwordGame_App() {
   const web3 = await getWeb3();
   accounts = await web3.eth.getAccounts();
@@ -49,33 +50,58 @@ function swipe(){
       $btn = $('.swipe-btn', $swipe);
 
   TweenLite.to('#swipe-end', 0, { x: 15, y: 65});
-  
   var tl = new TimelineMax({repeat: -3});
   tl.staggerFrom("#dotted-line circle", 0.8, { scale: 1.2, x: 2, y: 0.5, opacity: 1, delay:0.09, ease: Power2.easeInOut, repeat: 1, yoyo: true}, 0.15);
-
+  if(window.outerWidth > 800){
+    $btn.on('click touchend', function(e){
+      e.preventDefault();
+    }).on('touchstart mousedown', function(e) {
+      e.preventDefault();
+      swiperDragged = true;
+      startX = typeof e.pageX != 'undefined' ? e.pageX : e.originalEvent.touches[0].pageX;
+      endX = 0;
+    })
+  
+    $(document).on('touchmove mousemove', function(e){
+      if (swiperDragged) {
+        actualX = typeof e.pageX != 'undefined' ? e.pageX : e.originalEvent.touches[0].pageX;
+        endX = Math.max(0, Math.min(500, actualX - startX));
+        TweenLite.to('#swipe-btn', 0, { x: endX});
+      }
+    }).on('touchend mouseup', function(e) {
+      if (swiperDragged) {
+        swiperDragged = false;
+        if (endX < 498) TweenLite.to('#swipe-btn', .5, { x: 0 }); 
+        if (endX>499) play();
+        endX = 0;
+      }
+    }); 
+  }
+  else{
     $btn.on('click touchend', function(e){
     e.preventDefault();
   }).on('touchstart mousedown', function(e) {
     e.preventDefault();
     swiperDragged = true;
-    startX = typeof e.pageX != 'undefined' ? e.pageX : e.originalEvent.touches[0].pageX;
-    endX = 0;
+    startY = typeof e.pageY != 'undefined' ? e.pageY : e.originalEvent.touches[0].pageY;
+    endY = 0;
   })
 
   $(document).on('touchmove mousemove', function(e){
     if (swiperDragged) {
-      actualX = typeof e.pageX != 'undefined' ? e.pageX : e.originalEvent.touches[0].pageX;
-      endX = Math.max(0, Math.min(500, actualX - startX));
-      TweenLite.to('#swipe-btn', 0, { x: endX});
+      actualY = typeof e.pageY != 'undefined' ? e.pageY : e.originalEvent.touches[0].pageY;
+      endY = Math.max(0, Math.min(432, actualY - startY));
+      TweenLite.to('#swipe-btn', 0, { y: endY});
     }
   }).on('touchend mouseup', function(e) {
     if (swiperDragged) {
       swiperDragged = false;
-      if (endX < 498) TweenLite.to('#swipe-btn', .5, { x: 0 }); 
-      if (endX>499) play();
-      endX = 0;
+      if (endY < 432) TweenLite.to('#swipe-btn', .5, { y: 0 }); 
+      if (endY>431) play();
+      endY = 0;
     }
-  }); 
+  }); }
+    
 }
 
 /* GETTING PIN */
