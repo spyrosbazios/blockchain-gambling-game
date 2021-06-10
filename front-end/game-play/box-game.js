@@ -2,6 +2,7 @@ var passwordGame_contract = null;
 var accounts = null;
 var price;
 var reward;
+var finish;
 console.log(screen.width)
 console.log(window.outerWidth)
 async function passwordGame_App() {
@@ -72,7 +73,7 @@ function swipe(){
       if (swiperDragged) {
         swiperDragged = false;
         if (endX < 498) TweenLite.to('#swipe-btn', .5, { x: 0 }); 
-        if (endX>499) play();
+        if (endX>499) {play(); finish = true;}
         endX = 0;
       }
     }); 
@@ -97,7 +98,7 @@ function swipe(){
     if (swiperDragged) {
       swiperDragged = false;
       if (endY < 432) TweenLite.to('#swipe-btn', .5, { y: 0 }); 
-      if (endY>431) play();
+      if (endY>431) {play(); finish = true;}
       endY = 0;
     }
   }); }
@@ -260,7 +261,7 @@ function getBtnId(btnId){
 }
 
 function cancel(codeId){
-  if(finish) return;
+  if (finish) return;
   switch (codeId){
     case "cross1":
       console.log(pin1.length);
@@ -309,6 +310,7 @@ async function play() {
     let x = event.returnValues.result;
     var popup = document.getElementById("popup");
     if (!x) popup.src = "gameplay-assets/popup_lost.png";
+    setTimeout(1000);
     popup.style.visibility= "visible";
     document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "blur(6px)");
     document.addEventListener('mouseup', function(e) {
@@ -317,7 +319,7 @@ async function play() {
           document.querySelectorAll("body :not(#popup)").forEach(element => element.style.filter = "none");
 
       }
-  });
+    });
   });
 
   passwordGame_contract.events.Code(function(error, event) {
